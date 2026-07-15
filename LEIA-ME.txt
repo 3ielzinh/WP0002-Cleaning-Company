@@ -1,0 +1,60 @@
+LUMORA CLEANING CO. - MVP DO WEBSITE
+=====================================
+
+Este pacote contém o código-fonte completo do MVP criado para a demonstração
+da empresa de limpeza.
+
+TECNOLOGIAS
+-----------
+- React 19
+- Next.js 16
+- TypeScript
+- Vinext / Vite
+- CSS responsivo personalizado
+
+COMO EXECUTAR LOCALMENTE
+------------------------
+Requisitos: Node.js 22 ou superior e npm.
+
+1. Abra o terminal dentro desta pasta.
+2. Execute: npm ci
+3. Execute: npm run dev
+4. Abra o endereço informado no terminal.
+
+VALIDAÇÃO DE PRODUÇÃO
+---------------------
+- Gerar a compilação: npm run build
+- Validar o pacote: npm run validate:artifact
+
+PRINCIPAIS ARQUIVOS
+-------------------
+- app/page.tsx: estrutura, textos e interações da página.
+- app/globals.css: identidade visual, responsividade e animações.
+- app/layout.tsx: metadados e estrutura global.
+- public/: fotografias e recursos visuais.
+- package.json: dependências e comandos do projeto.
+
+FUNCIONALIDADES DEMONSTRADAS
+----------------------------
+- Hero premium e responsivo.
+- Seção de serviços e diferenciais.
+- Comparador interativo de antes e depois.
+- Demonstração do concierge de IA por voz e chat.
+- Avaliações e prova social.
+- Formulário de orçamento em três etapas.
+- Chat flutuante e perguntas frequentes.
+- Animações de entrada, hover e transições.
+
+CONTEÚDO PROVISÓRIO
+-------------------
+Lumora Cleaning Co., telefone, e-mail, endereço, avaliações, depoimentos e
+dados comerciais são demonstrativos. Substitua-os pelas informações reais da
+cliente antes da publicação final.
+
+HOSPEDAGEM
+----------
+Este pacote contém o código-fonte da aplicação. A instalação em hospedagem
+tradicional deve ser ajustada ao plano contratado e ao ambiente Node.js
+disponível. A integração real com Google Business, telefonia, IA, e-mail ou CRM
+também depende de credenciais e serviços externos.
+
