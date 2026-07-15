@@ -1,7 +1,13 @@
+interface Fetcher {
+  fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+}
+
+interface D1Database {}
+
 declare module "cloudflare:workers" {
   // Minimal ambient typing so non-Cloudflare type-checks (e.g. Vercel) can pass.
   export const env: {
-    DB?: unknown;
+    DB?: D1Database;
     [key: string]: unknown;
   };
 }
