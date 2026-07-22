@@ -42,8 +42,9 @@ test("renders development preview metadata", async () => {
   assert.match(html, /Client before and after cleaning gallery/i);
   assert.match(html, /Original condition/i);
   assert.match(html, /SparClean finish/i);
-  assert.match(html, /22\.09\.13\.jpeg/i);
-  assert.match(html, /22\.09\.13 \(1\)\.jpeg/i);
+  assert.match(html, /before-after\/1\.jpeg/i);
+  assert.match(html, /22\.31\.04\.jpeg/i);
+  assert.match(html, /Stovetop restoration/i);
   assert.match(html, /care-english-speaking\.webp/i);
   assert.match(html, /care-pet-friendly\.webp/i);
   assert.match(html, /care-child-friendly\.webp/i);

@@ -235,7 +235,7 @@ const clientReviews = [
   },
 ] as const;
 
-const transformationCases = [
+const transformationCaseCatalog = [
   {
     id: "styled-surface",
     title: "A polished finishing touch",
@@ -413,6 +413,12 @@ const transformationCases = [
     after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.31.04.jpeg", width: 1600, height: 1200, alt: "The same stovetop clean and polished after deep cleaning" },
   },
 ] as const;
+
+const transformationCases = [
+  transformationCaseCatalog[transformationCaseCatalog.length - 1],
+  ...transformationCaseCatalog.slice(1, -1),
+  transformationCaseCatalog[0],
+];
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
