@@ -65,7 +65,7 @@ const services = [
 
 const faqs = [
   ["Do I need to be home during the cleaning?", "Not at all. Many clients provide secure access instructions, and our insured team handles the rest. We confirm arrival and completion so you always know what is happening."],
-  ["Do you bring your own supplies?", "Yes. We arrive fully equipped with professional supplies and tools. If you prefer specific products or eco-friendly options, simply mention that in your quote request."],
+  ["Do you bring your own supplies?", "Yes. We arrive fully equipped with professional supplies and tools. If you prefer specific products or eco-friendly options, simply mention that in your estimate request."],
   ["Can I customize my cleaning plan?", "Absolutely. Every home and business works differently. We tailor the checklist, frequency, priority areas, and access instructions around your needs."],
   ["What happens if I need to reschedule?", "Just let us know as early as possible. Your final booking policy will clearly explain the rescheduling window and available options."],
 ];
@@ -88,8 +88,8 @@ const initialQuoteDetails: QuoteDetails = {
 
 const quoteSteps = [
   { label: "Service", title: "What would you like us to clean?", hint: "Choose one or more services. You can fine-tune the details with our team later." },
-  { label: "Space", title: "Tell us about your space.", hint: "A little context helps us prepare a more accurate, thoughtful quote." },
-  { label: "Contact", title: "Where should we send your quote?", hint: "No spam or pressure—just a personalized response about your request." },
+  { label: "Space", title: "Tell us about your space.", hint: "A little context helps us prepare a more accurate, thoughtful estimate." },
+  { label: "Contact", title: "Where should we send your estimate?", hint: "No spam or pressure—just a personalized response about your request." },
   { label: "Review", title: "Everything look right?", hint: "Review the details and confirm the policies before sending your request." },
 ] as const;
 
@@ -112,8 +112,8 @@ const heroSlides = [
     title: "Ready before the workday begins.",
     copy: "Discreet, dependable care scheduled around your operations—from reception to every workstation.",
     meta: "Recurring · After-hours · Fully insured",
-    image: "/hero-commercial-man-action.webp",
-    alt: "SparClean male professional in a black uniform and gloves cleaning a conference table in a modern office",
+    image: "/hero-commercial-man-4.webp",
+    alt: "SparClean male professional in a black uniform and tan gloves cleaning a conference table in a modern office",
     width: 1122,
     height: 1402,
     position: "52% 44%",
@@ -128,8 +128,8 @@ const heroSlides = [
     title: "A polished first impression, consistently.",
     copy: "Tailored cleaning for receptions, clinics, studios and shared spaces—without disrupting your day.",
     meta: "Flexible schedules · Custom scope",
-    image: "/hero-commercial-man-cart.webp",
-    alt: "SparClean male professional in a black uniform and gloves cleaning a conference table beside a service cart",
+    image: "/hero-commercial-man-cart-tan-gloves.webp",
+    alt: "SparClean male professional in a black uniform and tan gloves cleaning a conference table beside a service cart",
     width: 1122,
     height: 1402,
     position: "50% 42%",
@@ -144,8 +144,8 @@ const heroSlides = [
     title: "A calmer, beautifully maintained home.",
     copy: "Meticulous recurring, deep and move-in care personalized around your household and routines.",
     meta: "Weekly · Biweekly · Deep cleaning",
-    image: "/hero-residential-woman-action.webp",
-    alt: "SparClean female professional in a black uniform and gloves cleaning a dining table in a bright residential interior",
+    image: "/hero-residential-woman-action-tan-gloves.webp",
+    alt: "SparClean female professional in a black uniform and tan gloves cleaning a dining table in a bright residential interior",
     width: 1122,
     height: 1402,
     position: "50% 50%",
@@ -320,7 +320,7 @@ export default function Home() {
       <div className="announcement">
         <div className="shell announcement-inner">
           <span><Icon name="sparkles" size={15}/> The SparClean Signature Standard · Meticulous care, beautifully delivered</span>
-          <a href="#quote">Request a private quote <Icon name="arrow" size={16}/></a>
+          <a href="#estimate">Request a private estimate <Icon name="arrow" size={16}/></a>
         </div>
       </div>
 
@@ -331,12 +331,12 @@ export default function Home() {
           </a>
           <nav className={menuOpen ? "main-nav open" : "main-nav"} aria-label="Main navigation">
             <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
-            <a href="#difference" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
             <a href="#results" onClick={() => setMenuOpen(false)}>Results</a>
             <a href="#reviews" onClick={() => setMenuOpen(false)}>Reviews</a>
             <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
           </nav>
-          <a className="button button-small header-cta" href="#quote">Request a quote <Icon name="arrow" size={18}/></a>
+          <a className="button button-small header-cta" href="#estimate">Request an estimate <Icon name="arrow" size={18}/></a>
           <button className="menu-button" onClick={() => setMenuOpen(v => !v)} aria-label="Toggle menu" aria-expanded={menuOpen}>
             <Icon name={menuOpen ? "close" : "menu"}/>
           </button>
@@ -354,7 +354,7 @@ export default function Home() {
               <span className="hero-lede-mobile">Commercial cleaning for offices and businesses, with the same meticulous standard available for homes.</span>
             </p>
             <div className="hero-actions hero-in delay-4">
-              <a className="button" href="#quote">Request a tailored quote <Icon name="arrow"/></a>
+              <a className="button" href="#estimate">Request a tailored estimate <Icon name="arrow"/></a>
               <a className="text-link" href="#services">Explore commercial care <Icon name="arrow" size={18}/></a>
             </div>
             <div className="trust-row hero-in delay-5">
@@ -471,7 +471,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section quote-section" id="quote">
+      <section className="section quote-section" id="estimate">
         <div className="shell quote-grid">
           <div className="quote-copy" data-reveal>
             <div className="eyebrow">A service tailored to your space</div>
@@ -479,7 +479,7 @@ export default function Home() {
             <p>Share a few details and we’ll prepare a considered, no-pressure proposal for your home or business.</p>
             <div className="quote-highlights">
               <div><span><Icon name="clock" size={19}/></span><p><strong>About 2 minutes</strong><small>Four simple, guided steps</small></p></div>
-              <div><span><Icon name="shield" size={19}/></span><p><strong>No obligation</strong><small>A thoughtful quote, never pressure</small></p></div>
+              <div><span><Icon name="shield" size={19}/></span><p><strong>No obligation</strong><small>A thoughtful estimate, never pressure</small></p></div>
             </div>
             <div className="quote-contact"><span><Icon name="phone"/></span><div><small>Prefer to talk?</small><strong>(555) 014-7727</strong><p>Our concierge is available 24/7</p></div></div>
             <div className="privacy-note"><Icon name="shield" size={18}/> Your information stays private and is only used to prepare your request.</div>
@@ -496,7 +496,7 @@ export default function Home() {
             ) : (
               <form ref={quoteFormRef} onSubmit={submitQuote} noValidate>
                 <div className="form-head">
-                  <div><small>Free quote request</small><strong>{quoteSteps[quoteStep - 1].label}</strong></div>
+                  <div><small>Free estimate request</small><strong>{quoteSteps[quoteStep - 1].label}</strong></div>
                   <span className="form-step-count">Step {String(quoteStep).padStart(2, "0")} of 04</span>
                 </div>
 
@@ -509,7 +509,7 @@ export default function Home() {
                       return <li className={state} key={step.label}><span>{stepNumber < quoteStep ? <Icon name="check" size={13}/> : stepNumber}</span><small>{step.label}</small></li>;
                     })}
                   </ol>
-                  <div className="quote-progress-track" role="progressbar" aria-label="Quote request progress" aria-valuemin={1} aria-valuemax={4} aria-valuenow={quoteStep}>
+                  <div className="quote-progress-track" role="progressbar" aria-label="Estimate request progress" aria-valuemin={1} aria-valuemax={4} aria-valuenow={quoteStep}>
                     <span style={{ width: `${((quoteStep - 1) / (quoteSteps.length - 1)) * 100}%` }}/>
                   </div>
                 </div>
@@ -555,7 +555,7 @@ export default function Home() {
                         <label htmlFor="quote-phone">Phone <span>*</span><input id="quote-phone" name="phone" required minLength={7} autoComplete="tel" type="tel" value={quoteDetails.phone} onChange={e => updateQuoteDetail("phone", e.target.value)} placeholder="(555) 000-0000" aria-describedby={formError ? "quote-form-error" : undefined}/></label>
                         <label htmlFor="quote-email">Email <span>*</span><input id="quote-email" name="email" required autoComplete="email" type="email" value={quoteDetails.email} onChange={e => updateQuoteDetail("email", e.target.value)} placeholder="you@email.com" aria-describedby={formError ? "quote-form-error" : undefined}/></label>
                       </div>
-                      <div className="form-note privacy"><span><Icon name="shield" size={19}/></span><p><strong>Your details stay private.</strong><small>We only use them to prepare and follow up on this quote.</small></p></div>
+                      <div className="form-note privacy"><span><Icon name="shield" size={19}/></span><p><strong>Your details stay private.</strong><small>We only use them to prepare and follow up on your estimate.</small></p></div>
                     </div>
                   )}
 
@@ -583,7 +583,7 @@ export default function Home() {
 
                   <div className={quoteStep === 1 ? "form-actions first-step" : "form-actions"}>
                     {quoteStep > 1 ? <button type="button" className="back-button" onClick={() => changeQuoteStep(quoteStep - 1)}><Icon name="arrow" size={17}/> Back</button> : <span className="form-security"><Icon name="shield" size={16}/> No payment required</span>}
-                    {quoteStep < 4 ? <button type="button" className="button form-next" onClick={advanceQuoteStep}>Continue <Icon name="arrow"/></button> : <button type="submit" className="button form-next">Request my free quote <Icon name="arrow"/></button>}
+                    {quoteStep < 4 ? <button type="button" className="button form-next" onClick={advanceQuoteStep}>Continue <Icon name="arrow"/></button> : <button type="submit" className="button form-next">Request my free estimate <Icon name="arrow"/></button>}
                   </div>
                 </fieldset>
               </form>
@@ -596,37 +596,47 @@ export default function Home() {
         <div className="shell">
           <div className="section-heading split-heading" data-reveal>
             <div><div className="eyebrow">Considered care for every space</div><h2 className="display-sm">Beyond clean.<br/><em>Beautifully cared for.</em></h2></div>
-            <div className="heading-aside"><p>From weekly home care to detailed commercial cleaning, every service is shaped around your space—not a generic checklist.</p><a className="text-link" href="#quote">Build your cleaning plan <Icon name="arrow" size={18}/></a></div>
+            <div className="heading-aside"><p>From weekly home care to detailed commercial cleaning, every service is shaped around your space—not a generic checklist.</p><a className="text-link" href="#estimate">Build your cleaning plan <Icon name="arrow" size={18}/></a></div>
           </div>
           <div className="service-grid">
             {services.map((item, index) => (
               <article className="service-card" data-reveal style={{ "--delay": `${index * 80}ms` } as React.CSSProperties} key={item.title}>
                 <div className="service-top"><span className="service-icon"><Icon name={item.icon} size={25}/></span><span className="service-number">{item.number}</span></div>
                 <h3>{item.title}</h3><p>{item.copy}</p><small>{item.meta}</small>
-                <a href="#quote" aria-label={`Request ${item.title}`}><Icon name="arrow"/></a>
+                <a href="#estimate" aria-label={`Request ${item.title}`}><Icon name="arrow"/></a>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section difference-section" id="difference">
-        <div className="shell difference-grid">
-          <div className="difference-visual" data-reveal>
-            <div className="arch-card arch-main"><span className="arch-big">98%</span><p>of recurring clients say they feel more relaxed after a SparClean clean.</p></div>
-            <div className="arch-card arch-small"><Icon name="leaf" size={34}/><strong>Care in every detail</strong><span>People-safe options available</span></div>
-            <div className="orbit-text"><span>DETAILS MATTER · CARE SHOWS · </span></div>
-          </div>
-          <div className="difference-copy" data-reveal>
-            <div className="eyebrow light">The SparClean Signature Standard</div>
-            <h2 className="display-sm light-text">Reliable care.<br/><em>Remarkable details.</em></h2>
-            <p>We built a better cleaning experience around the things that matter most: clear communication, trusted professionals, and consistently beautiful results.</p>
-            <div className="difference-list">
-              <div><span>01</span><div><strong>Thoughtfully matched team</strong><p>Professional, insured cleaners selected for your space.</p></div></div>
-              <div><span>02</span><div><strong>Your preferences, remembered</strong><p>Notes, priority rooms, products, and access details stay organized.</p></div></div>
-              <div><span>03</span><div><strong>Simple, proactive communication</strong><p>Helpful confirmations before, during, and after every clean.</p></div></div>
+      <section className="section about-section" id="about" aria-labelledby="about-title">
+        <div className="about-glow about-glow-one" aria-hidden="true"/>
+        <div className="about-glow about-glow-two" aria-hidden="true"/>
+        <div className="shell about-grid">
+          <header className="about-heading" data-reveal>
+            <div className="eyebrow">SparClean Cleaning Services LLC</div>
+            <h2 className="display-sm" id="about-title">About <em>Us</em></h2>
+            <p className="about-welcome">Thank you for considering SparClean Cleaning Services LLC.</p>
+            <div className="about-signature" aria-hidden="true"><span>SC</span><i/></div>
+          </header>
+
+          <article className="about-story" data-reveal>
+            <p className="about-lead">We are a locally owned residential and commercial cleaning company proudly serving Sacramento and surrounding areas. We specialize in delivering a refined, high-standard cleaning experience for clients who value excellence, discretion, and consistency.</p>
+
+            <div className="about-columns">
+              <div data-chapter="01">
+                <p>Our company is fully insured, and every member of our team is background-checked, carefully selected, and extensively trained. Our services are performed by dedicated teams of two to three professionals, allowing us to work efficiently while maintaining exceptional attention to detail.</p>
+                <p>We use professional-grade equipment and premium cleaning products to deliver outstanding results. Homeowners are kindly asked to provide one roll of paper towels and trash bags. If you prefer that we use your own cleaning products, we are happy to accommodate; however, results may vary depending on the quality of the products provided. Please leave them on the kitchen countertop or provide clear instructions.</p>
+              </div>
+              <div data-chapter="02">
+                <p>Our teams arrive in uniform, wearing gloves and masks at all times. Shoe covers are always worn to help protect your floors and keep your home clean throughout the service. We never send inexperienced cleaners into our clients&apos; homes. Our reputation is built on precision, professionalism, integrity, and trust, and we proudly uphold a consistent 5-star standard of service.</p>
+                <p>To maintain this level of quality, we intentionally accept a limited number of recurring clients, with availability for weekly, bi-weekly, or monthly cleaning services.</p>
+              </div>
             </div>
-          </div>
+
+            <p className="about-closing"><Icon name="sparkles" size={22}/> <span>Spend your time with your family doing what you love. Let us take care of your home while you enjoy the moments that matter most.</span></p>
+          </article>
         </div>
       </section>
 
@@ -649,7 +659,7 @@ export default function Home() {
             <h2 className="display-sm">The difference<br/>is in the <em>details.</em></h2>
             <p>Slide to explore a representative transformation. Every clean is guided by a detailed checklist and finished with a quality review.</p>
             <div className="result-stats"><div><strong>50+</strong><span>quality points checked</span></div><div><strong>100%</strong><span>carefully reviewed</span></div></div>
-            <a href="#quote" className="button">Request your transformation <Icon name="arrow"/></a>
+            <a href="#estimate" className="button">Request your transformation <Icon name="arrow"/></a>
           </div>
           <div className="compare-card" data-reveal style={{ "--compare-position": `${compare}%` } as React.CSSProperties}>
             <div className="compare-image after"><img src="/kitchen-after.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="Bright, polished kitchen after professional cleaning"/><span className="image-label">After</span></div>
@@ -666,29 +676,29 @@ export default function Home() {
           <div className="concierge-copy" data-reveal>
             <div className="eyebrow light"><span className="live-dot"/> Meet your 24/7 cleaning concierge</div>
             <h2 className="display-sm light-text">Questions answered.<br/><em>Bookings simplified.</em></h2>
-            <p>Whether a visitor prefers to call or type, SparClean’s AI concierge can answer common questions, collect quote details, and help schedule the next step—day or night.</p>
+            <p>Whether a visitor prefers to call or type, SparClean’s AI concierge can answer common questions, collect estimate details, and help schedule the next step—day or night.</p>
             <div className="mode-toggle" role="group" aria-label="Concierge demo mode">
               <button className={aiMode === "voice" ? "active" : ""} onClick={() => setAiMode("voice")}><Icon name="phone" size={17}/> Voice assistant</button>
               <button className={aiMode === "chat" ? "active" : ""} onClick={() => setAiMode("chat")}><Icon name="message" size={17}/> Website chat</button>
             </div>
-            <ul className="feature-checks"><li><Icon name="check" size={17}/> Answers service and availability questions</li><li><Icon name="check" size={17}/> Collects detailed quote information</li><li><Icon name="check" size={17}/> Transfers complex requests to a person</li></ul>
+            <ul className="feature-checks"><li><Icon name="check" size={17}/> Answers service and availability questions</li><li><Icon name="check" size={17}/> Collects detailed estimate information</li><li><Icon name="check" size={17}/> Transfers complex requests to a person</li></ul>
             <small className="demo-note">Interactive concept · final integrations configured after approval</small>
           </div>
           <div className="concierge-demo" data-reveal>
             {aiMode === "voice" ? (
               <div className="phone-demo">
                 <div className="phone-top"><span>9:41</span><div/><span>•••</span></div>
-                <div className="call-content"><div className="ai-avatar"><span/><span/><span/></div><small>SparClean AI concierge</small><h3>How can I help today?</h3><div className="waveform">{Array.from({ length: 28 }).map((_, i) => <i key={i} style={{ "--h": `${12 + ((i * 17) % 32)}px`, "--d": `${i * 45}ms` } as React.CSSProperties}/>)}</div><p>“I’d like a quote for biweekly cleaning.”</p><div className="call-time">00:42</div></div>
+                <div className="call-content"><div className="ai-avatar"><span/><span/><span/></div><small>SparClean AI concierge</small><h3>How can I help today?</h3><div className="waveform">{Array.from({ length: 28 }).map((_, i) => <i key={i} style={{ "--h": `${12 + ((i * 17) % 32)}px`, "--d": `${i * 45}ms` } as React.CSSProperties}/>)}</div><p>“I’d like an estimate for biweekly cleaning.”</p><div className="call-time">00:42</div></div>
                 <div className="call-actions"><button><Icon name="message"/></button><button className="hangup"><Icon name="phone"/></button><button><Icon name="calendar"/></button></div>
               </div>
             ) : (
               <div className="chat-demo">
                 <div className="chat-head"><div className="ai-avatar small"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Online now</small></div><span>•••</span></div>
-                <div className="chat-body"><div className="chat-date">Today · 9:41 AM</div><div className="bubble ai">Hi! I can help you find the right cleaning plan. What kind of space would you like us to care for?</div><div className="bubble user">A 3-bedroom home. I’m interested in biweekly cleaning.</div><div className="bubble ai">Perfect. I’ll collect a few details and prepare your quote request. ✦</div><div className="typing"><i/><i/><i/></div></div>
+                <div className="chat-body"><div className="chat-date">Today · 9:41 AM</div><div className="bubble ai">Hi! I can help you find the right cleaning plan. What kind of space would you like us to care for?</div><div className="bubble user">A 3-bedroom home. I’m interested in biweekly cleaning.</div><div className="bubble ai">Perfect. I’ll collect a few details and prepare your estimate. ✦</div><div className="typing"><i/><i/><i/></div></div>
                 <div className="chat-input">Type your message… <button><Icon name="arrow"/></button></div>
               </div>
             )}
-            <div className="automation-card"><span><Icon name="check"/></span><div><small>Lead captured</small><strong>Quote request ready</strong></div><em>Just now</em></div>
+            <div className="automation-card"><span><Icon name="check"/></span><div><small>Lead captured</small><strong>Estimate request ready</strong></div><em>Just now</em></div>
           </div>
         </div>
       </section>
@@ -709,7 +719,7 @@ export default function Home() {
 
       <section className="membership-section">
         <div className="shell membership-card" data-reveal>
-          <div className="membership-pattern"/><div className="membership-copy"><div className="eyebrow light">SparClean Signature Care</div><h2 className="display-sm light-text">An immaculate home.<br/><em>Beautifully effortless.</em></h2><p>Recurring care means a familiar team, remembered preferences, priority scheduling, and an exceptional standard maintained quietly, week after week.</p><a href="#quote" className="button button-cream">Discover signature care <Icon name="arrow"/></a></div>
+          <div className="membership-pattern"/><div className="membership-copy"><div className="eyebrow light">SparClean Signature Care</div><h2 className="display-sm light-text">An immaculate home.<br/><em>Beautifully effortless.</em></h2><p>Recurring care means a familiar team, remembered preferences, priority scheduling, and an exceptional standard maintained quietly, week after week.</p><a href="#estimate" className="button button-cream">Discover signature care <Icon name="arrow"/></a></div>
           <div className="membership-benefits"><div><span><Icon name="calendar"/></span><strong>Priority scheduling</strong><p>Your preferred day, protected whenever possible.</p></div><div><span><Icon name="clock"/></span><strong>Time back, every week</strong><p>Consistent care that fits quietly into your routine.</p></div><div><span><Icon name="star"/></span><strong>Preferred client perks</strong><p>Easy add-ons and thoughtful seasonal touches.</p></div></div>
         </div>
       </section>
@@ -719,12 +729,12 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Thoughtful cleaning for lighter living.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#difference">About us</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:5550147727">(555) 014-7727</a><a href="mailto:hello@sparclean.com">hello@sparclean.com</a><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
+        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:5550147727">(555) 014-7727</a><a href="mailto:hello@sparclean.com">hello@sparclean.com</a><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
         <div className="shell footer-bottom"><span>© 2026 SparClean · Demonstration concept</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></div><span>Made with care ✦</span></div>
       </footer>
 
       <button className={chatOpen ? "floating-chat active" : "floating-chat"} onClick={() => setChatOpen(v => !v)} aria-label="Open AI concierge"><span className="live-dot"/><Icon name={chatOpen ? "close" : "message"}/><i>Ask SparClean</i></button>
-      <div className={chatOpen ? "mini-chat open" : "mini-chat"} aria-hidden={!chatOpen}><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Ready to help</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can answer questions or help start your free quote. What would you like to know?</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#quote")?.scrollIntoView({behavior:"smooth"});}}>Get a quote</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>View services</button></div></div><div className="mini-chat-input">Type a message… <button><Icon name="arrow"/></button></div></div>
+      <div className={chatOpen ? "mini-chat open" : "mini-chat"} aria-hidden={!chatOpen}><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Ready to help</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can answer questions or help prepare your free estimate. What would you like to know?</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#estimate")?.scrollIntoView({behavior:"smooth"});}}>Get an estimate</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>View services</button></div></div><div className="mini-chat-input">Type a message… <button><Icon name="arrow"/></button></div></div>
 
       {showTermsModal && (
         <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>
@@ -737,7 +747,7 @@ export default function Home() {
               <h4>1. Acceptance of Terms</h4>
               <p>By using SparClean’s services, you agree to be bound by these Terms of Use. If you do not agree to these terms, please do not use our services.</p>
               <h4>2. Scope of Services</h4>
-              <p>SparClean provides professional residential and commercial cleaning services. The scope of services will be as agreed upon in your quote and confirmed booking.</p>
+              <p>SparClean provides professional residential and commercial cleaning services. The scope of services will be as outlined in your estimate and confirmed booking.</p>
               <h4>3. Liability</h4>
               <p>SparClean is fully insured. In the unlikely event of damage or loss, clients must notify us within 24 hours of the cleaning date so we can address the issue appropriately.</p>
               <h4>4. Privacy</h4>
@@ -761,15 +771,15 @@ export default function Home() {
             </div>
             <div className="modal-body">
               <h4>Cancellation Policy</h4>
-              <p>To cancel or reschedule without charge, please notify us at least <strong>48 hours</strong> before your scheduled appointment. Cancellations with less than 48 hours’ notice will incur a fee of 50% of the scheduled service value.</p>
+              <p>To cancel or reschedule without charge, please notify us at least <strong>48 hours</strong> before your scheduled appointment. Cancellations with less than 48 hours’ notice will incur a fee of 50% of the scheduled service estimate.</p>
               <h4>Same-Day Cancellation</h4>
-              <p>Cancellations made on the day of service or no-shows will be charged 100% of the service value.</p>
+              <p>Cancellations made on the day of service or no-shows will be charged 100% of the service estimate.</p>
               <h4>Rescheduling</h4>
               <p>You may reschedule free of charge up to 48 hours before your appointment. Contact us via phone, email, or through the AI concierge.</p>
               <h4>Access to Property</h4>
               <p>Clients are responsible for providing safe and clear access to the property at the scheduled time. If our team cannot access the property, the appointment will be treated as a same-day cancellation.</p>
               <h4>Satisfaction Guarantee</h4>
-              <p>If you are not satisfied with any aspect of your clean, please contact us within 24 hours and we will return to address the concern at no additional cost.</p>
+              <p>If you are not satisfied with any aspect of your clean, please contact us within 24 hours and we will return to address the concern without increasing the original estimate.</p>
             </div>
             <div className="modal-footer">
               <button className="button" onClick={() => { setPolicyAccepted(true); setShowPolicyModal(false); }}>I Acknowledge <Icon name="check" size={16}/></button>

@@ -41,14 +41,21 @@ test("renders development preview metadata", async () => {
   assert.doesNotMatch(html, /sparclean-icon\.jpg/i);
   assert.match(html, /aria-roledescription=["']carousel["']/i);
   assert.match(html, /Commercial cleaning is our specialty/i);
-  assert.match(html, /hero-commercial-man-action\.webp/i);
-  assert.match(html, /hero-commercial-man-cart\.webp/i);
-  assert.match(html, /hero-residential-woman-action\.webp/i);
+  assert.match(html, /hero-commercial-man-4\.webp/i);
+  assert.match(html, /hero-commercial-man-cart-tan-gloves\.webp/i);
+  assert.match(html, /hero-residential-woman-action-tan-gloves\.webp/i);
   assert.match(html, /kitchen-before-matched\.webp/i);
   assert.match(html, /Residential care/i);
+  assert.match(html, /Luxury is having one less thing to worry about\./i);
+  assert.match(html, /Thank you for considering SparClean Cleaning Services LLC\./i);
+  assert.match(html, /proudly serving Sacramento and surrounding areas/i);
+  assert.match(html, /background-checked, carefully selected, and extensively trained/i);
+  assert.match(html, /limited number of recurring clients/i);
+  assert.match(html, /enjoy the moments that matter most/i);
+  assert.match(html, /id=["']about["']/i);
   assert.ok(
-    html.indexOf('id="quote"') < html.indexOf('id="services"'),
-    "the quote form should render before the services section",
+    html.indexOf('id="estimate"') < html.indexOf('id="services"'),
+    "the estimate form should render before the services section",
   );
 });
 
@@ -60,6 +67,19 @@ test("before-and-after comparison reveals one full-size continuous scene", async
 
   assert.doesNotMatch(pageSource, /className="compare-image before"\s+style=\{\{\s*width:/i);
   assert.match(pageSource, /--compare-position/i);
+  assert.doesNotMatch(pageSource, /scheduled service value|additional cost/i);
+  assert.match(pageSource, /scheduled service estimate/i);
+  assert.match(pageSource, /without increasing the original estimate/i);
+  assert.doesNotMatch(
+    pageSource,
+    /(?:private|tailored|free|thoughtful|your|service|detailed)\s+quote|quote request|a quote/i,
+  );
+  assert.match(pageSource, /Request a tailored estimate/i);
+  assert.match(pageSource, /Estimate request ready/i);
+  assert.doesNotMatch(pageSource, /98%|Thoughtfully matched team/i);
+  assert.match(styles, /--brand-gold:\s*#d1b02b/i);
+  assert.match(styles, /\.announcement\s*\{[^}]*background:\s*var\(--brand-gold\)/is);
+  assert.match(styles, /\.footer\s*\{[^}]*var\(--brand-gold\)/is);
   assert.match(
     styles,
     /\.compare-image\.before\s*\{[^}]*clip-path:\s*inset\(0 calc\(100% - var\(--compare-position\)\) 0 0\)/is,
