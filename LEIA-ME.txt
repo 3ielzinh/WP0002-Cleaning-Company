@@ -57,3 +57,6 @@ Este pacote contém o código-fonte da aplicação. A instalação em hospedagem
 tradicional deve ser ajustada ao plano contratado e ao ambiente Node.js
 disponível. A integração real com Google Business, telefonia, IA, e-mail ou CRM
 também depende de credenciais e serviços externos.
+
+
+Novo commit

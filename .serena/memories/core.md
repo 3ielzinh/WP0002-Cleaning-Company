@@ -1,0 +1,11 @@
+# Project Map
+- Single-page SparClean marketing/demo site; UI copy is English and all commercial/contact/review data is provisional.
+- Primary UI: `app/page.tsx` (client component; constants, state, handlers, and full landing-page JSX) plus `app/globals.css` (all bespoke responsive styling/animations).
+- Global metadata/fonts/icons: `app/layout.tsx`.
+- Cloudflare/vinext runtime adapter and image optimization: `worker/index.ts`; hosting bindings originate in `.openai/hosting.json` and `vite.config.ts`.
+- Database is intentionally unused: `db/schema.ts` is empty; `db/index.ts` only provides an opt-in D1/Drizzle accessor.
+- Product integrations are demonstrations only: estimate submission sets local React success state; AI concierge, reviews, phone/email/social links, CRM/email/voice/Google integrations are not implemented.
+- Runtime and version pins: `mem:tech_stack`.
+- Project-specific coding/layout conventions: `mem:conventions`.
+- Local Windows workflows: `mem:suggested_commands`.
+- Required completion checks and known baseline findings: `mem:task_completion`.
