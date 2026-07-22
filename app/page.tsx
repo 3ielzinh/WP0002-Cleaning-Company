@@ -1023,9 +1023,9 @@ export default function Home() {
               if (Math.abs(distance) > 48) moveTransformation(distance < 0 ? 1 : -1);
             }}
           >
-            <div className="transformation-photo-pair" key={activeTransformation.id} style={{ "--photo-aspect": activeTransformation.aspect } as React.CSSProperties}>
+            <div className="transformation-photo-pair" key={activeTransformation.id}>
               <article className="transformation-photo-frame before">
-                <div className="transformation-photo-media">
+                <div className="transformation-photo-media" style={{ "--photo-image": `url("${activeTransformation.before.src}")` } as React.CSSProperties}>
                   <img
                     src={activeTransformation.before.src}
                     width={activeTransformation.before.width}
@@ -1038,7 +1038,7 @@ export default function Home() {
                 <div className="transformation-photo-label"><span>Before</span><small>Original condition</small></div>
               </article>
               <article className="transformation-photo-frame after">
-                <div className="transformation-photo-media">
+                <div className="transformation-photo-media" style={{ "--photo-image": `url("${activeTransformation.after.src}")` } as React.CSSProperties}>
                   <img
                     src={activeTransformation.after.src}
                     width={activeTransformation.after.width}

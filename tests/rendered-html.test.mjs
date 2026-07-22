@@ -39,9 +39,11 @@ test("renders development preview metadata", async () => {
   assert.match(html, /Child-friendly cleaning/i);
   assert.match(html, /Client reviews/i);
   assert.match(html, /Every transformation/i);
-  assert.match(html, /Before and after gallery layout preview/i);
-  assert.match(html, /Before photo/i);
-  assert.match(html, /After photo/i);
+  assert.match(html, /Client before and after cleaning gallery/i);
+  assert.match(html, /Original condition/i);
+  assert.match(html, /SparClean finish/i);
+  assert.match(html, /22\.09\.13\.jpeg/i);
+  assert.match(html, /22\.09\.13 \(1\)\.jpeg/i);
   assert.match(html, /care-english-speaking\.webp/i);
   assert.match(html, /care-pet-friendly\.webp/i);
   assert.match(html, /care-child-friendly\.webp/i);
@@ -96,6 +98,8 @@ test("before-and-after comparison reveals one full-size continuous scene", async
   assert.match(pageSource, /before-after\/WhatsApp Image 2026-07-21 at 22\.31\.04\.jpeg/i);
   assert.doesNotMatch(pageSource, /transformation-gallery-tabs/i);
   assert.doesNotMatch(pageSource, /Layout preview · Actual client photos/i);
+  assert.match(styles, /\.transformation-photo-media\s*\{[^}]*aspect-ratio:\s*4\s*\/\s*5/is);
+  assert.match(styles, /\.transformation-photo-media img\s*\{[^}]*object-fit:\s*contain/is);
   assert.match(styles, /--brand-gold:\s*#d4af37/i);
   assert.match(styles, /\.announcement\s*\{[^}]*background:\s*var\(--gold-panel\)/is);
   assert.match(styles, /\.button:hover\s*\{[^}]*background:\s*var\(--gold-sheen\)/is);
