@@ -99,6 +99,7 @@ test("before-and-after comparison reveals one full-size continuous scene", async
   assert.doesNotMatch(pageSource, /transformation-gallery-tabs/i);
   assert.doesNotMatch(pageSource, /Layout preview · Actual client photos/i);
   assert.match(styles, /\.transformation-photo-media\s*\{[^}]*aspect-ratio:\s*4\s*\/\s*5/is);
+  assert.match(styles, /\.transformation-photo-media:before\s*\{[^}]*background-image:\s*var\(--photo-image\)[^}]*blur\(22px\)/is);
   assert.match(styles, /\.transformation-photo-media img\s*\{[^}]*object-fit:\s*contain/is);
   assert.match(styles, /--brand-gold:\s*#d4af37/i);
   assert.match(styles, /\.announcement\s*\{[^}]*background:\s*var\(--gold-panel\)/is);

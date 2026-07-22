@@ -2145,20 +2145,19 @@ main {
   overflow: hidden;
   border: 1px solid rgba(118, 91, 41, .13);
   isolation: isolate;
-  background: #d9d2c6;
+  background: #282118;
 }
-.transformation-photo-frame.after .transformation-photo-media { background: #e8e1d5; }
 .transformation-photo-media:before {
   content: "";
   position: absolute;
   z-index: 0;
-  inset: -24px;
-  background-image: linear-gradient(rgba(236, 228, 213, .34), rgba(43, 34, 20, .16)), var(--photo-image);
+  inset: -34px;
+  background-image: var(--photo-image);
   background-position: center;
   background-size: cover;
-  filter: blur(18px) saturate(.72);
-  opacity: .58;
-  transform: scale(1.08);
+  filter: blur(22px) saturate(1.04) brightness(.78);
+  opacity: 1;
+  transform: scale(1.15);
 }
 .transformation-photo-media:after {
   content: "";
@@ -2166,7 +2165,8 @@ main {
   z-index: 2;
   inset: 0;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2), inset 0 -42px 55px rgba(33, 25, 12, .08);
+  background: linear-gradient(90deg, rgba(27, 21, 13, .08), transparent 18%, transparent 82%, rgba(27, 21, 13, .08));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16), inset 0 -42px 55px rgba(19, 14, 8, .09);
 }
 .transformation-photo-media img {
   position: relative;
