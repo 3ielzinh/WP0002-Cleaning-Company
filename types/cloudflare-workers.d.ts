@@ -2,7 +2,7 @@ interface Fetcher {
   fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
 }
 
-interface D1Database {}
+type D1Database = object;
 
 declare module "cloudflare:workers" {
   // Minimal ambient typing so non-Cloudflare type-checks (e.g. Vercel) can pass.

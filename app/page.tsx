@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
+/* eslint-disable @next/next/no-img-element -- vinext's current next/image client shim duplicates React hooks during hydration. */
+
 type IconName =
   | "arrow"
   | "star"
@@ -244,8 +246,8 @@ const transformationCaseCatalog = [
     copy: "Surface marks and everyday buildup give way to a clean, composed finish—captured honestly in the client’s own space.",
     note: "Original client photos · no artificial retouching.",
     aspect: "16 / 9",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.09.13.jpeg", width: 1600, height: 720, alt: "Decorative surface with visible marks before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.09.13 (1).jpeg", width: 1600, height: 720, alt: "The same decorative surface clean and neatly arranged after cleaning" },
+    before: { src: "/results/living-space-detail-before.jpeg", width: 1600, height: 720, alt: "Decorative living-space surface with visible marks before professional detail cleaning" },
+    after: { src: "/results/living-space-detail-after.jpeg", width: 1600, height: 720, alt: "The same decorative living-space surface clean and neatly arranged after professional detail cleaning" },
   },
   {
     id: "shower-niche",
@@ -255,8 +257,8 @@ const transformationCaseCatalog = [
     copy: "A small, easily overlooked area becomes noticeably brighter once residue and buildup are carefully removed.",
     note: "A close-up that shows the value of meticulous detail work.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.10.22.jpeg", width: 642, height: 856, alt: "Shower niche with visible residue before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.10.21.jpeg", width: 642, height: 856, alt: "The same shower niche clean after detailed care" },
+    before: { src: "/results/shower-niche-before.jpeg", width: 642, height: 856, alt: "Bathroom shower niche with visible residue before professional deep cleaning" },
+    after: { src: "/results/shower-niche-after.jpeg", width: 642, height: 856, alt: "The same bathroom shower niche clean after professional deep cleaning" },
   },
   {
     id: "laundry-reset",
@@ -266,8 +268,8 @@ const transformationCaseCatalog = [
     copy: "The hidden space behind an appliance is cleared of dust, debris, and buildup for a genuinely complete clean.",
     note: "The kind of care that reaches beyond visible surfaces.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.12.03.jpeg", width: 1200, height: 1600, alt: "Floor behind a laundry appliance covered with debris before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.12.03 (1).jpeg", width: 1200, height: 1600, alt: "The same floor behind the laundry appliance clean and clear" },
+    before: { src: "/results/laundry-appliance-area-before.jpeg", width: 1200, height: 1600, alt: "Floor behind a laundry appliance covered with debris before professional deep cleaning" },
+    after: { src: "/results/laundry-appliance-area-after.jpeg", width: 1200, height: 1600, alt: "The same floor behind the laundry appliance clean and clear after professional deep cleaning" },
   },
   {
     id: "grill-side",
@@ -277,8 +279,8 @@ const transformationCaseCatalog = [
     copy: "Grease and weathered buildup are lifted from the grill’s side surfaces, restoring a crisp stainless-steel finish.",
     note: "A candid result with a clearly visible change in finish.",
     aspect: "9 / 16",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.08 (1).jpeg", width: 1080, height: 1920, alt: "Outdoor grill side surfaces with grease and buildup before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.35 (1).jpeg", width: 1080, height: 1920, alt: "The same outdoor grill side surfaces polished after cleaning" },
+    before: { src: "/results/outdoor-grill-side-before.jpeg", width: 1080, height: 1920, alt: "Outdoor grill side surfaces with grease and buildup before detailed appliance cleaning" },
+    after: { src: "/results/outdoor-grill-side-after.jpeg", width: 1080, height: 1920, alt: "The same outdoor grill side surfaces polished after detailed appliance cleaning" },
   },
   {
     id: "grill-front",
@@ -288,8 +290,8 @@ const transformationCaseCatalog = [
     copy: "The front view reveals the full transformation—from a dull, marked exterior to a bright and presentation-ready finish.",
     note: "A second viewpoint documents the complete appliance result.",
     aspect: "9 / 16",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.08.jpeg", width: 1080, height: 1920, alt: "Outdoor grill front with grime and marks before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.35.jpeg", width: 1080, height: 1920, alt: "The same outdoor grill front bright and polished after cleaning" },
+    before: { src: "/results/outdoor-grill-front-before.jpeg", width: 1080, height: 1920, alt: "Outdoor grill front with grime and marks before detailed appliance cleaning" },
+    after: { src: "/results/outdoor-grill-front-after.jpeg", width: 1080, height: 1920, alt: "The same outdoor grill front bright and polished after detailed appliance cleaning" },
   },
   {
     id: "cabinet-interior",
@@ -299,8 +301,8 @@ const transformationCaseCatalog = [
     copy: "Crumbs and residue are removed from the cabinet interior, leaving the space clean, dry, and ready to use again.",
     note: "Careful work in the places that are usually out of sight.",
     aspect: "9 / 16",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.15.37.jpeg", width: 720, height: 1600, alt: "Cabinet interior with crumbs and residue before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.15.37 (1).jpeg", width: 720, height: 1600, alt: "The same cabinet interior clean after detailed care" },
+    before: { src: "/results/cabinet-interior-before.jpeg", width: 720, height: 1600, alt: "Kitchen cabinet interior with crumbs and residue before professional deep cleaning" },
+    after: { src: "/results/cabinet-interior-after.jpeg", width: 720, height: 1600, alt: "The same kitchen cabinet interior clean after professional deep cleaning" },
   },
   {
     id: "shower-base",
@@ -310,8 +312,8 @@ const transformationCaseCatalog = [
     copy: "Dark buildup across the shower base is removed, revealing a visibly cleaner and brighter surface around the drain.",
     note: "A straightforward transformation with no staged lighting.",
     aspect: "9 / 16",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.16.20.jpeg", width: 1080, height: 1920, alt: "Shower base with dark buildup before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.16.21.jpeg", width: 720, height: 1600, alt: "The same shower base bright and clean after care" },
+    before: { src: "/results/shower-base-before.jpeg", width: 1080, height: 1920, alt: "Bathroom shower base with dark buildup before professional deep cleaning" },
+    after: { src: "/results/shower-base-after.jpeg", width: 720, height: 1600, alt: "The same bathroom shower base bright and clean after professional deep cleaning" },
   },
   {
     id: "oven-glass",
@@ -321,8 +323,8 @@ const transformationCaseCatalog = [
     copy: "Grease and cooked-on residue are cleared from the oven glass, bringing back its transparency and polished black frame.",
     note: "The door detail records the finish up close.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21.jpeg", width: 1536, height: 2048, alt: "Oven door glass with grease and cooked-on residue before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (1).jpeg", width: 1536, height: 2048, alt: "The same oven glass clear and polished after cleaning" },
+    before: { src: "/results/oven-glass-before.jpeg", width: 1536, height: 2048, alt: "Kitchen oven door glass with grease and cooked-on residue before professional cleaning" },
+    after: { src: "/results/oven-glass-after.jpeg", width: 1536, height: 2048, alt: "The same kitchen oven glass clear and polished after professional cleaning" },
   },
   {
     id: "oven-interior",
@@ -332,8 +334,8 @@ const transformationCaseCatalog = [
     copy: "The interior, racks, and oven floor are restored from heavy baked-on residue to a clean, even finish.",
     note: "A full-view record of the appliance interior.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (2).jpeg", width: 1536, height: 2048, alt: "Oven interior with heavy baked-on residue before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (3).jpeg", width: 1536, height: 2048, alt: "The same oven interior and racks clean after detailed care" },
+    before: { src: "/results/oven-interior-before.jpeg", width: 1536, height: 2048, alt: "Kitchen oven interior with heavy baked-on residue before professional cleaning" },
+    after: { src: "/results/oven-interior-after.jpeg", width: 1536, height: 2048, alt: "The same kitchen oven interior and racks clean after professional cleaning" },
   },
   {
     id: "freezer-reset",
@@ -343,8 +345,8 @@ const transformationCaseCatalog = [
     copy: "The freezer is emptied, cleaned, and restored to a fresh, orderly interior ready for food storage.",
     note: "The original appliance details confirm the matching space.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (4).jpeg", width: 1079, height: 1436, alt: "Cluttered freezer with visible residue before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22.jpeg", width: 1079, height: 1440, alt: "The same freezer empty and clean after care" },
+    before: { src: "/results/freezer-before.jpeg", width: 1079, height: 1436, alt: "Kitchen freezer with clutter and visible residue before professional refrigerator cleaning" },
+    after: { src: "/results/freezer-after.jpeg", width: 1079, height: 1440, alt: "The same kitchen freezer empty and clean after professional refrigerator cleaning" },
   },
   {
     id: "refrigerator-drawers",
@@ -354,8 +356,8 @@ const transformationCaseCatalog = [
     copy: "Built-up spills and residue around the drawer assembly are removed before every component is cleaned and returned.",
     note: "A close view makes the depth of cleaning easy to see.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (1).jpeg", width: 1079, height: 1436, alt: "Refrigerator drawer area with spills and residue before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (2).jpeg", width: 1079, height: 1440, alt: "The same refrigerator drawer area clean and reassembled" },
+    before: { src: "/results/refrigerator-drawers-before.jpeg", width: 1079, height: 1436, alt: "Kitchen refrigerator drawer area with spills and residue before professional cleaning" },
+    after: { src: "/results/refrigerator-drawers-after.jpeg", width: 1079, height: 1440, alt: "The same kitchen refrigerator drawer area clean and reassembled after professional cleaning" },
   },
   {
     id: "glass-partition",
@@ -365,8 +367,8 @@ const transformationCaseCatalog = [
     copy: "A cloudy glass partition is cleared of mineral film and residue, restoring visibility across the entire panel.",
     note: "The matching hinge and tile line preserve the original viewpoint.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (3).jpeg", width: 1079, height: 1440, alt: "Cloudy bathroom glass partition before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (4).jpeg", width: 1079, height: 1440, alt: "The same glass partition clear after mineral buildup removal" },
+    before: { src: "/results/bathroom-glass-before.jpeg", width: 1079, height: 1440, alt: "Cloudy bathroom glass partition with mineral film before professional cleaning" },
+    after: { src: "/results/bathroom-glass-after.jpeg", width: 1079, height: 1440, alt: "The same bathroom glass partition clear after professional mineral buildup removal" },
   },
   {
     id: "stainless-sink",
@@ -376,8 +378,8 @@ const transformationCaseCatalog = [
     copy: "Water marks and residue are removed from the sink, leaving the basin and fixtures with a clean, even sheen.",
     note: "Natural reflections show the true finish of the steel.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.23.jpeg", width: 1079, height: 1436, alt: "Stainless-steel sink with water marks before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.23 (1).jpeg", width: 1079, height: 1436, alt: "The same stainless-steel sink polished after cleaning" },
+    before: { src: "/results/stainless-sink-before.jpeg", width: 1079, height: 1436, alt: "Kitchen stainless-steel sink with water marks before professional detail cleaning" },
+    after: { src: "/results/stainless-sink-after.jpeg", width: 1079, height: 1436, alt: "The same kitchen stainless-steel sink polished after professional detail cleaning" },
   },
   {
     id: "appliance-floor",
@@ -387,8 +389,8 @@ const transformationCaseCatalog = [
     copy: "Once the appliance is moved, embedded debris is removed from the floor and edges for a complete, hygienic reset.",
     note: "Proof that hidden areas receive the same level of care.",
     aspect: "3 / 4",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.51 (1).jpeg", width: 1200, height: 1600, alt: "Floor beneath a kitchen appliance covered with debris before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.51.jpeg", width: 1200, height: 1600, alt: "The same floor beneath the appliance clean and clear" },
+    before: { src: "/results/appliance-floor-before.jpeg", width: 1200, height: 1600, alt: "Floor beneath a kitchen appliance covered with debris before professional deep cleaning" },
+    after: { src: "/results/appliance-floor-after.jpeg", width: 1200, height: 1600, alt: "The same floor beneath the kitchen appliance clean and clear after professional deep cleaning" },
   },
   {
     id: "toilet-detail",
@@ -398,8 +400,8 @@ const transformationCaseCatalog = [
     copy: "Visible staining inside the bowl is removed, leaving a clean and refreshed finish throughout the fixture.",
     note: "A direct client photo with an unmistakable result.",
     aspect: "9 / 16",
-    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.51 (2).jpeg", width: 921, height: 2048, alt: "Toilet bowl with visible staining before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.52.jpeg", width: 1080, height: 1687, alt: "The same toilet bowl clean after detailed care" },
+    before: { src: "/results/toilet-detail-before.jpeg", width: 921, height: 2048, alt: "Bathroom toilet bowl with visible staining before professional detail cleaning" },
+    after: { src: "/results/toilet-detail-after.jpeg", width: 1080, height: 1687, alt: "The same bathroom toilet bowl clean after professional detail cleaning" },
   },
   {
     id: "stovetop-restoration",
@@ -409,8 +411,8 @@ const transformationCaseCatalog = [
     copy: "Heavy grease and cooked-on buildup are removed across the burners, controls, and stainless surface for a dramatic final reveal.",
     note: "One of the collection’s strongest transformations.",
     aspect: "4 / 3",
-    before: { src: "/before-after/1.jpeg", width: 640, height: 480, alt: "Stovetop covered with heavy grease and cooked-on buildup before cleaning" },
-    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.31.04.jpeg", width: 1600, height: 1200, alt: "The same stovetop clean and polished after deep cleaning" },
+    before: { src: "/results/stovetop-before.jpeg", width: 640, height: 480, alt: "Kitchen stovetop covered with heavy grease and cooked-on buildup before professional deep cleaning" },
+    after: { src: "/results/stovetop-after.jpeg", width: 1600, height: 1200, alt: "The same kitchen stovetop clean and polished after professional deep cleaning" },
   },
 ] as const;
 
@@ -591,7 +593,7 @@ export default function Home() {
   }
 
   return (
-    <main className={heroInView ? "hero-visible" : ""}>
+    <main id="main-content" className={heroInView ? "hero-visible" : ""}>
       <div className="announcement">
         <div className="shell announcement-inner">
           <span><Icon name="sparkles" size={15}/> The SparClean Signature Standard · Meticulous care, beautifully delivered</span>
@@ -809,7 +811,7 @@ export default function Home() {
               <div><span><Icon name="clock" size={19}/></span><p><strong>About 2 minutes</strong><small>Four simple, guided steps</small></p></div>
               <div><span><Icon name="shield" size={19}/></span><p><strong>No obligation</strong><small>A thoughtful estimate, never pressure</small></p></div>
             </div>
-            <div className="quote-contact"><span><Icon name="phone"/></span><div><small>Prefer to talk?</small><strong>(555) 014-7727</strong><p>Our concierge is available 24/7</p></div></div>
+            <div className="quote-contact"><span><Icon name="phone"/></span><div><small>Prefer to talk?</small><strong><a href="tel:+19165460021">(916) 546-0021</a></strong><p>Our concierge is available 24/7</p></div></div>
             <div className="privacy-note"><Icon name="shield" size={18}/> Your information stays private and is only used to prepare your request.</div>
           </div>
           <div className="quote-form-card" data-reveal>
@@ -1030,7 +1032,7 @@ export default function Home() {
             }}
           >
             <div className="transformation-photo-pair" key={activeTransformation.id}>
-              <article className="transformation-photo-frame before">
+              <figure className="transformation-photo-frame before">
                 <div className="transformation-photo-media" style={{ "--photo-image": `url("${activeTransformation.before.src}")` } as React.CSSProperties}>
                   <img
                     src={activeTransformation.before.src}
@@ -1041,9 +1043,9 @@ export default function Home() {
                     alt={activeTransformation.before.alt}
                   />
                 </div>
-                <div className="transformation-photo-label"><span>Before</span><small>Original condition</small></div>
-              </article>
-              <article className="transformation-photo-frame after">
+                <figcaption className="transformation-photo-label"><span>Before</span><small>Original condition</small></figcaption>
+              </figure>
+              <figure className="transformation-photo-frame after">
                 <div className="transformation-photo-media" style={{ "--photo-image": `url("${activeTransformation.after.src}")` } as React.CSSProperties}>
                   <img
                     src={activeTransformation.after.src}
@@ -1054,8 +1056,8 @@ export default function Home() {
                     alt={activeTransformation.after.alt}
                   />
                 </div>
-                <div className="transformation-photo-label"><span>After</span><small>SparClean finish</small></div>
-              </article>
+                <figcaption className="transformation-photo-label"><span>After</span><small>SparClean finish</small></figcaption>
+              </figure>
             </div>
 
             <aside className="transformation-case-note" aria-live="polite">
@@ -1163,7 +1165,7 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:5550147727">(555) 014-7727</a><a href="mailto:hello@sparclean.com">hello@sparclean.com</a><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
+        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
         <div className="shell footer-bottom"><span>© 2026 SparClean · Demonstration concept</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></div><span>Made with care ✦</span></div>
       </footer>
 
