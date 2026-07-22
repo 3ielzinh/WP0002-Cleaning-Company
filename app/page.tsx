@@ -112,7 +112,7 @@ const heroSlides = [
     title: "Ready before the workday begins.",
     copy: "Discreet, dependable care scheduled around your operations—from reception to every workstation.",
     meta: "Recurring · After-hours · Fully insured",
-    image: "/hero-commercial-man-4.webp",
+    image: "/hero-commercial-man-5.webp",
     alt: "SparClean male professional in a black uniform and tan gloves cleaning a conference table in a modern office",
     width: 1122,
     height: 1402,
@@ -144,13 +144,273 @@ const heroSlides = [
     title: "A calmer, beautifully maintained home.",
     copy: "Meticulous recurring, deep and move-in care personalized around your household and routines.",
     meta: "Weekly · Biweekly · Deep cleaning",
-    image: "/hero-residential-woman-action-tan-gloves.webp",
+    image: "/hero-residential-woman-3.webp",
     alt: "SparClean female professional in a black uniform and tan gloves cleaning a dining table in a bright residential interior",
     width: 1122,
     height: 1402,
     position: "50% 50%",
     mobilePosition: "50% 48%",
     icon: "home" as IconName,
+  },
+] as const;
+
+const clientCareSlides = [
+  {
+    id: "english-speaking",
+    title: "English-speaking team",
+    shortTitle: "English-speaking",
+    copy: "From your first question to the final walkthrough, our team keeps every detail clear, friendly, and easy to understand.",
+    image: "/care-english-speaking.webp",
+    alt: "A smiling SparClean professional having a friendly conversation with a client in a bright home",
+    icon: "language" as IconName,
+  },
+  {
+    id: "pet-friendly",
+    title: "Pet-friendly care",
+    shortTitle: "Pet-friendly",
+    copy: "We work calmly around your pets, keep supplies safely placed, and adapt our routine so they feel comfortable in their own space.",
+    image: "/care-pet-friendly.webp",
+    alt: "A SparClean professional cleaning carefully beside a relaxed golden retriever",
+    icon: "paw" as IconName,
+  },
+  {
+    id: "child-friendly",
+    title: "Child-friendly cleaning",
+    shortTitle: "Child-friendly",
+    copy: "Thoughtful product placement and family-conscious routines help us care for busy, everyday spaces with children at home.",
+    image: "/care-child-friendly.webp",
+    alt: "A SparClean professional cleaning while a parent and child play safely nearby",
+    icon: "family" as IconName,
+  },
+] as const;
+
+const clientReviews = [
+  {
+    title: "“It feels like a reset every time.”",
+    copy: "The communication is excellent, the team remembers the little things, and the house always feels calm when I walk back in.",
+    name: "Sarah M.",
+    service: "Recurring home cleaning",
+  },
+  {
+    title: "“Professional from start to finish.”",
+    copy: "Booking was simple and the result exceeded expectations. Every surface in our office looked fresh without disrupting our team.",
+    name: "David R.",
+    service: "Commercial cleaning",
+  },
+  {
+    title: "“They noticed what others missed.”",
+    copy: "Our move-out clean was incredibly detailed. The process was clear, punctual, and completely stress-free.",
+    name: "Amanda L.",
+    service: "Move-out cleaning",
+  },
+  {
+    title: "“Thoughtful around our pets.”",
+    copy: "They took time to understand our routine, worked calmly around our dog, and left every room beautifully cared for.",
+    name: "Melissa T.",
+    service: "Deep home cleaning",
+  },
+  {
+    title: "“The consistency is exceptional.”",
+    copy: "Every biweekly visit is just as detailed as the first. Coming home after SparClean has become the best part of our week.",
+    name: "Jordan K.",
+    service: "Biweekly cleaning",
+  },
+  {
+    title: "“Our workspace finally feels polished.”",
+    copy: "The team works discreetly around our schedule and keeps our client-facing areas immaculate. The difference is immediately noticeable.",
+    name: "Priya N.",
+    service: "Recurring office care",
+  },
+  {
+    title: "“We could settle in right away.”",
+    copy: "Walking into a spotless home made moving day feel so much lighter. Every cabinet, surface, and corner was ready for us.",
+    name: "Lauren B.",
+    service: "Move-in cleaning",
+  },
+  {
+    title: "“A remarkable final transformation.”",
+    copy: "They handled the fine construction dust with incredible precision and turned the space into something truly presentation-ready.",
+    name: "Michael R.",
+    service: "Post-construction cleaning",
+  },
+] as const;
+
+const transformationCases = [
+  {
+    id: "styled-surface",
+    title: "A polished finishing touch",
+    room: "Living space",
+    service: "Detail cleaning",
+    copy: "Surface marks and everyday buildup give way to a clean, composed finish—captured honestly in the client’s own space.",
+    note: "Original client photos · no artificial retouching.",
+    aspect: "16 / 9",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.09.13.jpeg", width: 1600, height: 720, alt: "Decorative surface with visible marks before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.09.13 (1).jpeg", width: 1600, height: 720, alt: "The same decorative surface clean and neatly arranged after cleaning" },
+  },
+  {
+    id: "shower-niche",
+    title: "Shower niche detail",
+    room: "Bathroom",
+    service: "Deep bathroom cleaning",
+    copy: "A small, easily overlooked area becomes noticeably brighter once residue and buildup are carefully removed.",
+    note: "A close-up that shows the value of meticulous detail work.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.10.22.jpeg", width: 642, height: 856, alt: "Shower niche with visible residue before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.10.21.jpeg", width: 642, height: 856, alt: "The same shower niche clean after detailed care" },
+  },
+  {
+    id: "laundry-reset",
+    title: "Behind-the-appliance reset",
+    room: "Laundry area",
+    service: "Deep cleaning",
+    copy: "The hidden space behind an appliance is cleared of dust, debris, and buildup for a genuinely complete clean.",
+    note: "The kind of care that reaches beyond visible surfaces.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.12.03.jpeg", width: 1200, height: 1600, alt: "Floor behind a laundry appliance covered with debris before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.12.03 (1).jpeg", width: 1200, height: 1600, alt: "The same floor behind the laundry appliance clean and clear" },
+  },
+  {
+    id: "grill-side",
+    title: "Outdoor grill restoration",
+    room: "Outdoor kitchen",
+    service: "Detailed appliance cleaning",
+    copy: "Grease and weathered buildup are lifted from the grill’s side surfaces, restoring a crisp stainless-steel finish.",
+    note: "A candid result with a clearly visible change in finish.",
+    aspect: "9 / 16",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.08 (1).jpeg", width: 1080, height: 1920, alt: "Outdoor grill side surfaces with grease and buildup before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.35 (1).jpeg", width: 1080, height: 1920, alt: "The same outdoor grill side surfaces polished after cleaning" },
+  },
+  {
+    id: "grill-front",
+    title: "Grill front, renewed",
+    room: "Outdoor kitchen",
+    service: "Detailed appliance cleaning",
+    copy: "The front view reveals the full transformation—from a dull, marked exterior to a bright and presentation-ready finish.",
+    note: "A second viewpoint documents the complete appliance result.",
+    aspect: "9 / 16",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.08.jpeg", width: 1080, height: 1920, alt: "Outdoor grill front with grime and marks before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.14.35.jpeg", width: 1080, height: 1920, alt: "The same outdoor grill front bright and polished after cleaning" },
+  },
+  {
+    id: "cabinet-interior",
+    title: "Cabinet interior care",
+    room: "Kitchen storage",
+    service: "Deep cleaning",
+    copy: "Crumbs and residue are removed from the cabinet interior, leaving the space clean, dry, and ready to use again.",
+    note: "Careful work in the places that are usually out of sight.",
+    aspect: "9 / 16",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.15.37.jpeg", width: 720, height: 1600, alt: "Cabinet interior with crumbs and residue before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.15.37 (1).jpeg", width: 720, height: 1600, alt: "The same cabinet interior clean after detailed care" },
+  },
+  {
+    id: "shower-base",
+    title: "Shower base revival",
+    room: "Bathroom",
+    service: "Deep bathroom cleaning",
+    copy: "Dark buildup across the shower base is removed, revealing a visibly cleaner and brighter surface around the drain.",
+    note: "A straightforward transformation with no staged lighting.",
+    aspect: "9 / 16",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.16.20.jpeg", width: 1080, height: 1920, alt: "Shower base with dark buildup before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.16.21.jpeg", width: 720, height: 1600, alt: "The same shower base bright and clean after care" },
+  },
+  {
+    id: "oven-glass",
+    title: "Oven glass clarity",
+    room: "Kitchen",
+    service: "Oven cleaning",
+    copy: "Grease and cooked-on residue are cleared from the oven glass, bringing back its transparency and polished black frame.",
+    note: "The door detail records the finish up close.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21.jpeg", width: 1536, height: 2048, alt: "Oven door glass with grease and cooked-on residue before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (1).jpeg", width: 1536, height: 2048, alt: "The same oven glass clear and polished after cleaning" },
+  },
+  {
+    id: "oven-interior",
+    title: "Oven interior reset",
+    room: "Kitchen",
+    service: "Oven cleaning",
+    copy: "The interior, racks, and oven floor are restored from heavy baked-on residue to a clean, even finish.",
+    note: "A full-view record of the appliance interior.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (2).jpeg", width: 1536, height: 2048, alt: "Oven interior with heavy baked-on residue before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (3).jpeg", width: 1536, height: 2048, alt: "The same oven interior and racks clean after detailed care" },
+  },
+  {
+    id: "freezer-reset",
+    title: "Freezer reset",
+    room: "Kitchen",
+    service: "Refrigerator cleaning",
+    copy: "The freezer is emptied, cleaned, and restored to a fresh, orderly interior ready for food storage.",
+    note: "The original appliance details confirm the matching space.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.21 (4).jpeg", width: 1079, height: 1436, alt: "Cluttered freezer with visible residue before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22.jpeg", width: 1079, height: 1440, alt: "The same freezer empty and clean after care" },
+  },
+  {
+    id: "refrigerator-drawers",
+    title: "Refrigerator drawer detail",
+    room: "Kitchen",
+    service: "Refrigerator cleaning",
+    copy: "Built-up spills and residue around the drawer assembly are removed before every component is cleaned and returned.",
+    note: "A close view makes the depth of cleaning easy to see.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (1).jpeg", width: 1079, height: 1436, alt: "Refrigerator drawer area with spills and residue before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (2).jpeg", width: 1079, height: 1440, alt: "The same refrigerator drawer area clean and reassembled" },
+  },
+  {
+    id: "glass-partition",
+    title: "Glass, restored to clarity",
+    room: "Bathroom",
+    service: "Glass and shower cleaning",
+    copy: "A cloudy glass partition is cleared of mineral film and residue, restoring visibility across the entire panel.",
+    note: "The matching hinge and tile line preserve the original viewpoint.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (3).jpeg", width: 1079, height: 1440, alt: "Cloudy bathroom glass partition before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.22 (4).jpeg", width: 1079, height: 1440, alt: "The same glass partition clear after mineral buildup removal" },
+  },
+  {
+    id: "stainless-sink",
+    title: "Stainless-steel finish",
+    room: "Kitchen",
+    service: "Detailed kitchen cleaning",
+    copy: "Water marks and residue are removed from the sink, leaving the basin and fixtures with a clean, even sheen.",
+    note: "Natural reflections show the true finish of the steel.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.23.jpeg", width: 1079, height: 1436, alt: "Stainless-steel sink with water marks before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.18.23 (1).jpeg", width: 1079, height: 1436, alt: "The same stainless-steel sink polished after cleaning" },
+  },
+  {
+    id: "appliance-floor",
+    title: "The space beneath",
+    room: "Kitchen appliance area",
+    service: "Deep cleaning",
+    copy: "Once the appliance is moved, embedded debris is removed from the floor and edges for a complete, hygienic reset.",
+    note: "Proof that hidden areas receive the same level of care.",
+    aspect: "3 / 4",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.51 (1).jpeg", width: 1200, height: 1600, alt: "Floor beneath a kitchen appliance covered with debris before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.51.jpeg", width: 1200, height: 1600, alt: "The same floor beneath the appliance clean and clear" },
+  },
+  {
+    id: "toilet-detail",
+    title: "Bathroom detail restored",
+    room: "Bathroom",
+    service: "Detailed bathroom cleaning",
+    copy: "Visible staining inside the bowl is removed, leaving a clean and refreshed finish throughout the fixture.",
+    note: "A direct client photo with an unmistakable result.",
+    aspect: "9 / 16",
+    before: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.51 (2).jpeg", width: 921, height: 2048, alt: "Toilet bowl with visible staining before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.20.52.jpeg", width: 1080, height: 1687, alt: "The same toilet bowl clean after detailed care" },
+  },
+  {
+    id: "stovetop-restoration",
+    title: "Stovetop restoration",
+    room: "Kitchen",
+    service: "Deep appliance cleaning",
+    copy: "Heavy grease and cooked-on buildup are removed across the burners, controls, and stainless surface for a dramatic final reveal.",
+    note: "One of the collection’s strongest transformations.",
+    aspect: "4 / 3",
+    before: { src: "/before-after/1.jpeg", width: 640, height: 480, alt: "Stovetop covered with heavy grease and cooked-on buildup before cleaning" },
+    after: { src: "/before-after/WhatsApp Image 2026-07-21 at 22.31.04.jpeg", width: 1600, height: 1200, alt: "The same stovetop clean and polished after deep cleaning" },
   },
 ] as const;
 
@@ -164,6 +424,9 @@ export default function Home() {
   const [heroPageVisible, setHeroPageVisible] = useState(true);
   const [heroReducedMotion, setHeroReducedMotion] = useState(false);
   const [heroAnnouncement, setHeroAnnouncement] = useState("");
+  const [clientCareIndex, setClientCareIndex] = useState(0);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const [transformationIndex, setTransformationIndex] = useState(0);
   const [compare, setCompare] = useState(50);
   const [aiMode, setAiMode] = useState<"voice" | "chat">("voice");
   const [chatOpen, setChatOpen] = useState(false);
@@ -180,8 +443,10 @@ export default function Home() {
   const quoteStepTitleRef = useRef<HTMLHeadingElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const heroTouchStartRef = useRef<number | null>(null);
+  const transformationTouchStartRef = useRef<number | null>(null);
 
   const activeHero = heroSlides[heroIndex];
+  const activeTransformation = transformationCases[transformationIndex];
   const heroAutoplayPaused = heroPaused || heroHoverPaused || heroFocusPaused || !heroInView || !heroPageVisible || heroReducedMotion;
 
   function selectHeroSlide(index: number) {
@@ -192,6 +457,10 @@ export default function Home() {
 
   function moveHero(direction: -1 | 1) {
     selectHeroSlide(heroIndex + direction);
+  }
+
+  function moveTransformation(direction: -1 | 1) {
+    setTransformationIndex(current => (current + direction + transformationCases.length) % transformationCases.length);
   }
 
   function toggleCleaningType(type: string) {
@@ -463,11 +732,64 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="client-differentials" aria-label="SparClean client-friendly service advantages">
-        <div className="shell differential-grid">
-          <article><span><Icon name="language" size={22}/></span><div><strong>English-speaking team</strong><small>Clear communication at every step.</small></div></article>
-          <article><span><Icon name="paw" size={22}/></span><div><strong>Pet-friendly care</strong><small>Thoughtful routines around your pets.</small></div></article>
-          <article><span><Icon name="family" size={22}/></span><div><strong>Child-friendly cleaning</strong><small>Family-conscious care for everyday spaces.</small></div></article>
+      <section className="client-differentials" aria-labelledby="client-care-title">
+        <div className="shell client-care-layout">
+          <header className="client-care-intro">
+            <div className="eyebrow">The SparClean difference</div>
+            <h2 id="client-care-title">Considered care,<br/><em>made personal.</em></h2>
+            <p>Every household moves differently. Explore the thoughtful details we build into every visit.</p>
+            <div className="client-care-position" aria-hidden="true">
+              <strong>0{clientCareIndex + 1}</strong><span>/ 03</span>
+            </div>
+          </header>
+
+          <div className="client-care-carousel" role="tablist" aria-label="Our client care promises">
+            {clientCareSlides.map((slide, index) => {
+              const active = index === clientCareIndex;
+              return (
+                <article className={`client-care-panel${active ? " active" : ""}`} data-care-slide={slide.id} key={slide.id}>
+                  <button
+                    className="client-care-trigger"
+                    type="button"
+                    role="tab"
+                    id={`client-care-tab-${slide.id}`}
+                    aria-selected={active}
+                    aria-controls={`client-care-panel-${slide.id}`}
+                    tabIndex={active ? 0 : -1}
+                    onClick={() => setClientCareIndex(index)}
+                    onKeyDown={(event) => {
+                      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                      event.preventDefault();
+                      const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+                      const next = (index + direction + clientCareSlides.length) % clientCareSlides.length;
+                      setClientCareIndex(next);
+                      document.getElementById(`client-care-tab-${clientCareSlides[next].id}`)?.focus();
+                    }}
+                  >
+                    <span className="client-care-trigger-icon"><Icon name={slide.icon} size={20}/></span>
+                    <span className="client-care-trigger-title">{slide.shortTitle}</span>
+                    <span className="client-care-trigger-mark" aria-hidden="true">0{index + 1}</span>
+                  </button>
+
+                  <div
+                    className="client-care-media"
+                    id={`client-care-panel-${slide.id}`}
+                    role="tabpanel"
+                    aria-labelledby={`client-care-tab-${slide.id}`}
+                    aria-hidden={!active}
+                  >
+                    <img src={slide.image} alt={slide.alt} width="1200" height="800" loading="lazy" decoding="async"/>
+                    <div className="client-care-caption">
+                      <span>The SparClean standard</span>
+                      <h3>{slide.title}</h3>
+                      <p>{slide.copy}</p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          <span className="sr-only" aria-live="polite">{clientCareSlides[clientCareIndex].title} selected</span>
         </div>
       </section>
 
@@ -671,6 +993,83 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section transformation-gallery-section" aria-labelledby="transformation-gallery-title">
+        <div className="shell">
+          <div className="transformation-gallery-heading" data-reveal>
+            <div>
+              <div className="eyebrow">Real spaces · Honest results</div>
+              <h2 className="display-sm" id="transformation-gallery-title">Every transformation,<br/><em>beautifully framed.</em></h2>
+            </div>
+            <p>Client photos do not need to feel like campaign photography. A consistent crop, quiet matte frame, and a little context let the result speak for itself.</p>
+          </div>
+
+          <div
+            className="transformation-gallery"
+            data-reveal
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Client before and after cleaning gallery"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+              event.preventDefault();
+              moveTransformation(event.key === "ArrowRight" ? 1 : -1);
+            }}
+            onTouchStart={(event) => { transformationTouchStartRef.current = event.touches[0]?.clientX ?? null; }}
+            onTouchEnd={(event) => {
+              if (transformationTouchStartRef.current === null) return;
+              const distance = event.changedTouches[0].clientX - transformationTouchStartRef.current;
+              transformationTouchStartRef.current = null;
+              if (Math.abs(distance) > 48) moveTransformation(distance < 0 ? 1 : -1);
+            }}
+          >
+            <div className="transformation-photo-pair" key={activeTransformation.id} style={{ "--photo-aspect": activeTransformation.aspect } as React.CSSProperties}>
+              <article className="transformation-photo-frame before">
+                <div className="transformation-photo-media">
+                  <img
+                    src={activeTransformation.before.src}
+                    width={activeTransformation.before.width}
+                    height={activeTransformation.before.height}
+                    loading="lazy"
+                    decoding="async"
+                    alt={activeTransformation.before.alt}
+                  />
+                </div>
+                <div className="transformation-photo-label"><span>Before</span><small>Original condition</small></div>
+              </article>
+              <article className="transformation-photo-frame after">
+                <div className="transformation-photo-media">
+                  <img
+                    src={activeTransformation.after.src}
+                    width={activeTransformation.after.width}
+                    height={activeTransformation.after.height}
+                    loading="lazy"
+                    decoding="async"
+                    alt={activeTransformation.after.alt}
+                  />
+                </div>
+                <div className="transformation-photo-label"><span>After</span><small>SparClean finish</small></div>
+              </article>
+            </div>
+
+            <aside className="transformation-case-note" aria-live="polite">
+              <span className="transformation-case-number">Transformation {String(transformationIndex + 1).padStart(2, "0")} <i/> {String(transformationCases.length).padStart(2, "0")}</span>
+              <h3>{activeTransformation.title}</h3>
+              <p>{activeTransformation.copy}</p>
+              <dl>
+                <div><dt>Space</dt><dd>{activeTransformation.room}</dd></div>
+                <div><dt>Service</dt><dd>{activeTransformation.service}</dd></div>
+              </dl>
+              <div className="transformation-photo-guidance"><Icon name="star" size={16}/><span>{activeTransformation.note}</span></div>
+              <div className="transformation-gallery-arrows">
+                <button type="button" className="previous" aria-label="Show previous transformation" onClick={() => moveTransformation(-1)}><Icon name="arrow" size={17}/></button>
+                <button type="button" aria-label="Show next transformation" onClick={() => moveTransformation(1)}><Icon name="arrow" size={17}/></button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
       <section className="section concierge-section">
         <div className="concierge-glow"/><div className="shell concierge-grid">
           <div className="concierge-copy" data-reveal>
@@ -706,12 +1105,41 @@ export default function Home() {
       <section className="section reviews-section" id="reviews">
         <div className="shell">
           <div className="reviews-top" data-reveal><div><div className="eyebrow">Kind words from clean spaces</div><h2 className="display-sm">Trusted in the homes<br/><em>that matter most.</em></h2></div><div className="google-score"><span className="google-g">G</span><div><div className="big-stars">★★★★★</div><strong>4.9 from local clients</strong><small>Google reviews integration</small></div></div></div>
-          <div className="review-grid">
-            {[
-              ["“It feels like a reset every time.”", "The communication is excellent, the team remembers the little things, and the house always feels calm when I walk back in.", "Sarah M.", "Recurring home cleaning"],
-              ["“Professional from start to finish.”", "Booking was simple and the result exceeded expectations. Every surface in our office looked fresh without disrupting our team.", "David R.", "Commercial cleaning"],
-              ["“They noticed what others missed.”", "Our move-out clean was incredibly detailed. The process was clear, punctual, and completely stress-free.", "Amanda L.", "Move-out cleaning"],
-            ].map((review, index) => <article className="review-card" data-reveal style={{ "--delay": `${index * 90}ms` } as React.CSSProperties} key={review[2]}><div className="review-card-top"><span className="big-stars">★★★★★</span><Icon name="quote" size={34}/></div><h3>{review[0]}</h3><p>{review[1]}</p><div className="reviewer"><span>{review[2].split(" ").map(x => x[0]).join("")}</span><div><strong>{review[2]}</strong><small>{review[3]} · Verified</small></div></div></article>)}
+          <div
+            className="review-slider"
+            data-reveal
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Client reviews"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+              event.preventDefault();
+              setReviewIndex(current => (current + (event.key === "ArrowRight" ? 1 : -1) + clientReviews.length) % clientReviews.length);
+            }}
+          >
+            <div className="review-stage" aria-live="polite">
+              <article className="review-card review-card-featured" key={clientReviews[reviewIndex].name}>
+                <div className="review-feature-copy">
+                  <div className="review-card-top"><span className="big-stars">★★★★★</span><Icon name="quote" size={42}/></div>
+                  <h3>{clientReviews[reviewIndex].title}</h3>
+                  <p>{clientReviews[reviewIndex].copy}</p>
+                </div>
+                <div className="review-feature-meta">
+                  <span className="review-slide-count">{String(reviewIndex + 1).padStart(2, "0")} <i>/ {String(clientReviews.length).padStart(2, "0")}</i></span>
+                  <div className="reviewer"><span>{clientReviews[reviewIndex].name.split(" ").map(x => x[0]).join("")}</span><div><strong>{clientReviews[reviewIndex].name}</strong><small>{clientReviews[reviewIndex].service} · Verified</small></div></div>
+                </div>
+              </article>
+            </div>
+            <div className="review-controls">
+              <div className="review-pagination" role="tablist" aria-label="Choose a review">
+                {clientReviews.map((review, index) => <button key={review.name} type="button" className={index === reviewIndex ? "active" : ""} role="tab" aria-selected={index === reviewIndex} aria-label={`Show review ${index + 1} from ${review.name}`} onClick={() => setReviewIndex(index)}><span>{String(index + 1).padStart(2, "0")}</span></button>)}
+              </div>
+              <div className="review-arrows">
+                <button type="button" className="previous" aria-label="Show previous review" onClick={() => setReviewIndex(current => (current - 1 + clientReviews.length) % clientReviews.length)}><Icon name="arrow" size={18}/></button>
+                <button type="button" aria-label="Show next review" onClick={() => setReviewIndex(current => (current + 1) % clientReviews.length)}><Icon name="arrow" size={18}/></button>
+              </div>
+            </div>
           </div>
           <p className="placeholder-disclosure">Demonstration testimonials and ratings — replace with verified Google Business reviews before launch.</p>
         </div>

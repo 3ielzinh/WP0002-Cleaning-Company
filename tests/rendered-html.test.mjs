@@ -35,15 +35,26 @@ test("renders development preview metadata", async () => {
   assert.match(html, /class=["']form-step-count["']/i);
   assert.match(html, /What would you like us to clean\?/i);
   assert.match(html, /English-speaking team/i);
+  assert.match(html, /Pet-friendly care/i);
+  assert.match(html, /Child-friendly cleaning/i);
+  assert.match(html, /Client reviews/i);
+  assert.match(html, /Every transformation/i);
+  assert.match(html, /Before and after gallery layout preview/i);
+  assert.match(html, /Before photo/i);
+  assert.match(html, /After photo/i);
+  assert.match(html, /care-english-speaking\.webp/i);
+  assert.match(html, /care-pet-friendly\.webp/i);
+  assert.match(html, /care-child-friendly\.webp/i);
+  assert.match(html, /role=["']tablist["']/i);
   assert.match(html, /sparclean-logo-hq\.png/i);
   assert.match(html, /favicon-32x32\.png/i);
   assert.match(html, /apple-touch-icon\.png/i);
   assert.doesNotMatch(html, /sparclean-icon\.jpg/i);
   assert.match(html, /aria-roledescription=["']carousel["']/i);
   assert.match(html, /Commercial cleaning is our specialty/i);
-  assert.match(html, /hero-commercial-man-4\.webp/i);
+  assert.match(html, /hero-commercial-man-5\.webp/i);
   assert.match(html, /hero-commercial-man-cart-tan-gloves\.webp/i);
-  assert.match(html, /hero-residential-woman-action-tan-gloves\.webp/i);
+  assert.match(html, /hero-residential-woman-3\.webp/i);
   assert.match(html, /kitchen-before-matched\.webp/i);
   assert.match(html, /Residential care/i);
   assert.match(html, /Luxury is having one less thing to worry about\./i);
@@ -77,8 +88,21 @@ test("before-and-after comparison reveals one full-size continuous scene", async
   assert.match(pageSource, /Request a tailored estimate/i);
   assert.match(pageSource, /Estimate request ready/i);
   assert.doesNotMatch(pageSource, /98%|Thoughtfully matched team/i);
-  assert.match(styles, /--brand-gold:\s*#d1b02b/i);
-  assert.match(styles, /\.announcement\s*\{[^}]*background:\s*var\(--brand-gold\)/is);
+  assert.match(pageSource, /Thoughtful around our pets/i);
+  assert.match(pageSource, /Post-construction cleaning/i);
+  assert.match(pageSource, /clientReviews\.length/i);
+  assert.match(pageSource, /transformationCases\.length/i);
+  assert.match(pageSource, /before-after\/1\.jpeg/i);
+  assert.match(pageSource, /before-after\/WhatsApp Image 2026-07-21 at 22\.31\.04\.jpeg/i);
+  assert.doesNotMatch(pageSource, /transformation-gallery-tabs/i);
+  assert.doesNotMatch(pageSource, /Layout preview · Actual client photos/i);
+  assert.match(styles, /--brand-gold:\s*#d4af37/i);
+  assert.match(styles, /\.announcement\s*\{[^}]*background:\s*var\(--gold-panel\)/is);
+  assert.match(styles, /\.button:hover\s*\{[^}]*background:\s*var\(--gold-sheen\)/is);
+  assert.match(
+    styles,
+    /\.client-care-panel\s*\{[^}]*clip-path:\s*polygon\(0 0, calc\(100% - 42px\) 0, 100% 100%, 42px 100%\)/is,
+  );
   assert.match(styles, /\.footer\s*\{[^}]*var\(--brand-gold\)/is);
   assert.match(
     styles,
