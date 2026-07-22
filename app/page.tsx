@@ -21,6 +21,7 @@ type IconName =
   | "language"
   | "paw"
   | "family"
+  | "heart"
   | "quote"
   | "play"
   | "pause"
@@ -47,6 +48,7 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
     language: <><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9S14.4 18.5 12 21c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z"/></>,
     paw: <><circle cx="7" cy="8" r="2"/><circle cx="12" cy="5.5" r="2"/><circle cx="17" cy="8" r="2"/><path d="M8.2 13.1c1.9-2.2 5.7-2.2 7.6 0l1.2 1.5c1.6 2-.1 5-2.7 4.4l-2.3-.6-2.3.6c-2.6.6-4.3-2.4-2.7-4.4l1.2-1.5Z"/></>,
     family: <><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.3"/><path d="M3.5 20c.4-4 2.2-6 5.5-6s5.1 2 5.5 6M14 15c.8-.8 1.8-1.2 3-1.2 2.4 0 3.8 1.7 4 4.7"/></>,
+    heart: <path d="M20.8 4.7a5.5 5.5 0 0 0-7.8 0L12 5.8l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.5a5.5 5.5 0 0 0 0-7.8Z"/>,
     quote: <path d="M7 17H3l2-5H3V7h6v5l-2 5Zm10 0h-4l2-5h-2V7h6v5l-2 5Z"/>,
     play: <path d="m9 7 8 5-8 5V7Z"/>,
     pause: <><path d="M9 5v14"/><path d="M15 5v14"/></>,
@@ -183,6 +185,15 @@ const clientCareSlides = [
     image: "/care-child-friendly.webp",
     alt: "A SparClean professional cleaning while a parent and child play safely nearby",
     icon: "family" as IconName,
+  },
+  {
+    id: "senior-friendly",
+    title: "Senior-friendly care",
+    shortTitle: "Senior-friendly",
+    copy: "Respectful routines, clear communication, and an unhurried approach help older adults feel comfortable while we care for their home.",
+    image: "/care-senior-friendly.jpg",
+    alt: "A smiling SparClean professional cleaning a bright living room while an older client relaxes comfortably nearby",
+    icon: "heart" as IconName,
   },
 ] as const;
 
@@ -747,7 +758,7 @@ export default function Home() {
             <h2 id="client-care-title">Considered care,<br/><em>made personal.</em></h2>
             <p>Every household moves differently. Explore the thoughtful details we build into every visit.</p>
             <div className="client-care-position" aria-hidden="true">
-              <strong>0{clientCareIndex + 1}</strong><span>/ 03</span>
+              <strong>{String(clientCareIndex + 1).padStart(2, "0")}</strong><span>/ {String(clientCareSlides.length).padStart(2, "0")}</span>
             </div>
           </header>
 
@@ -776,7 +787,7 @@ export default function Home() {
                   >
                     <span className="client-care-trigger-icon"><Icon name={slide.icon} size={20}/></span>
                     <span className="client-care-trigger-title">{slide.shortTitle}</span>
-                    <span className="client-care-trigger-mark" aria-hidden="true">0{index + 1}</span>
+                    <span className="client-care-trigger-mark" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                   </button>
 
                   <div

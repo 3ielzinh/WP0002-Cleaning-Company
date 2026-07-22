@@ -52,6 +52,7 @@ test("renders production SEO metadata and accessible image descriptions", async 
   assert.match(html, /English-speaking team/i);
   assert.match(html, /Pet-friendly care/i);
   assert.match(html, /Child-friendly cleaning/i);
+  assert.match(html, /Senior-friendly care/i);
   assert.match(html, /Client reviews/i);
   assert.match(html, /Every transformation/i);
   assert.match(html, /Client before and after cleaning gallery/i);
@@ -63,6 +64,7 @@ test("renders production SEO metadata and accessible image descriptions", async 
   assert.match(html, /care-english-speaking\.webp/i);
   assert.match(html, /care-pet-friendly\.webp/i);
   assert.match(html, /care-child-friendly\.webp/i);
+  assert.match(html, /care-senior-friendly\.jpg/i);
   assert.match(html, /role=["']tablist["']/i);
   assert.match(html, /sparclean-logo-hq\.png/i);
   assert.match(html, /favicon-32x32\.png/i);
@@ -127,6 +129,7 @@ test("before-and-after comparison reveals one full-size continuous scene", async
     /\.client-care-panel\s*\{[^}]*clip-path:\s*polygon\(0 0, calc\(100% - 42px\) 0, 100% 100%, 42px 100%\)/is,
   );
   assert.match(styles, /\.footer\s*\{[^}]*var\(--brand-gold\)/is);
+  assert.match(styles, /\.membership-card \.display-sm em\s*\{[^}]*color:\s*#11110e/is);
   assert.match(
     styles,
     /\.compare-image\.before\s*\{[^}]*clip-path:\s*inset\(0 calc\(100% - var\(--compare-position\)\) 0 0\)/is,

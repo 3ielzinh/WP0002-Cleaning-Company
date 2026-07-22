@@ -10,6 +10,7 @@ const pageImagePaths = [
   "/care-english-speaking.webp",
   "/care-pet-friendly.webp",
   "/care-child-friendly.webp",
+  "/care-senior-friendly.jpg",
   "/kitchen-before-matched.webp",
   "/kitchen-after.webp",
   ...resultImagePaths,

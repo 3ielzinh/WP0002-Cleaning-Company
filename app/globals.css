@@ -1016,7 +1016,15 @@ main {
   background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .18), transparent 30%), repeating-radial-gradient(circle at 0 100%, transparent 0 32px, rgba(25, 25, 22, .055) 33px 34px);
 }
 .membership-card .light-text { color: var(--on-gold); }
-.membership-card .display-sm em { color: var(--on-gold-muted); }
+.membership-card .display-sm em {
+  color: #11110e;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #11110e;
+  font-weight: 500;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .34);
+}
 .membership-copy > p { color: var(--on-gold-muted); }
 .membership-benefits > div {
   border-color: rgba(25, 25, 22, .15);
@@ -1784,15 +1792,15 @@ main {
   .client-care-intro:after { display: block; }
   .client-care-position { display: none; }
   .client-care-carousel { height: 410px; }
-  .client-care-panel { flex-basis: 164px; }
-  .client-care-panel.active { flex-basis: 500px; }
+  .client-care-panel { flex-basis: 138px; }
+  .client-care-panel.active { flex-basis: 470px; }
   .client-care-trigger { padding: 24px 34px 26px 49px; }
   .client-care-trigger-mark { top: 28px; right: 39px; }
   .client-care-trigger-title { font-size: 1.05rem; }
   .client-care-caption { left: 52px; width: min(520px, calc(100% - 112px)); }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
   .client-differentials { padding: 48px 0 54px; }
   .client-care-layout { width: calc(100% - 24px); gap: 27px; }
   .client-care-intro { display: block; padding-inline: 4px; }
