@@ -1,4 +1,4 @@
-LUMORA CLEANING CO. - MVP DO WEBSITE
+SPARCLEAN - MVP DO WEBSITE
 =====================================
 
 Este pacote contém o código-fonte completo do MVP criado para a demonstração
@@ -47,7 +47,7 @@ FUNCIONALIDADES DEMONSTRADAS
 
 CONTEÚDO PROVISÓRIO
 -------------------
-Lumora Cleaning Co., telefone, e-mail, endereço, avaliações, depoimentos e
+SparClean, telefone, e-mail, endereço, avaliações, depoimentos e
 dados comerciais são demonstrativos. Substitua-os pelas informações reais da
 cliente antes da publicação final.
 
@@ -57,4 +57,3 @@ Este pacote contém o código-fonte da aplicação. A instalação em hospedagem
 tradicional deve ser ajustada ao plano contratado e ao ambiente Node.js
 disponível. A integração real com Google Business, telefonia, IA, e-mail ou CRM
 também depende de credenciais e serviços externos.
-

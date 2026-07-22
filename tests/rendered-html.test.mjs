@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const developmentPreviewMeta =
@@ -29,5 +30,38 @@ test("renders development preview metadata", async () => {
     response.headers.get("content-type") ?? "",
     /^text\/html\b/i,
   );
-  assert.match(await response.text(), developmentPreviewMeta);
+  const html = await response.text();
+  assert.match(html, developmentPreviewMeta);
+  assert.match(html, /class=["']form-step-count["']/i);
+  assert.match(html, /What would you like us to clean\?/i);
+  assert.match(html, /English-speaking team/i);
+  assert.match(html, /sparclean-logo-hq\.png/i);
+  assert.match(html, /favicon-32x32\.png/i);
+  assert.match(html, /apple-touch-icon\.png/i);
+  assert.doesNotMatch(html, /sparclean-icon\.jpg/i);
+  assert.match(html, /aria-roledescription=["']carousel["']/i);
+  assert.match(html, /Commercial cleaning is our specialty/i);
+  assert.match(html, /hero-commercial-man-action\.webp/i);
+  assert.match(html, /hero-commercial-man-cart\.webp/i);
+  assert.match(html, /hero-residential-woman-action\.webp/i);
+  assert.match(html, /kitchen-before-matched\.webp/i);
+  assert.match(html, /Residential care/i);
+  assert.ok(
+    html.indexOf('id="quote"') < html.indexOf('id="services"'),
+    "the quote form should render before the services section",
+  );
+});
+
+test("before-and-after comparison reveals one full-size continuous scene", async () => {
+  const [pageSource, styles] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.doesNotMatch(pageSource, /className="compare-image before"\s+style=\{\{\s*width:/i);
+  assert.match(pageSource, /--compare-position/i);
+  assert.match(
+    styles,
+    /\.compare-image\.before\s*\{[^}]*clip-path:\s*inset\(0 calc\(100% - var\(--compare-position\)\) 0 0\)/is,
+  );
 });
