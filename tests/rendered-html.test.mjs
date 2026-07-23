@@ -67,6 +67,8 @@ test("renders production SEO metadata and accessible image descriptions", async 
   assert.match(html, /results\/stovetop-after\.webp/i);
   assert.match(html, /Stovetop restoration/i);
   assert.match(html, /care-english-speaking\.webp/i);
+  assert.match(html, /client-care-trigger-preview/i);
+  assert.match(html, /care-previews\/care-english-speaking-vertical\.webp/i);
   assert.match(html, /aria-expanded=["']true["']/i);
   assert.match(html, /sparclean-logo-220\.webp/i);
   assert.match(html, /favicon-32x32\.png/i);

@@ -65,6 +65,11 @@ function mobileAssetPath(src: string) {
   return src.replace(/(\.[^.]+)$/, "-mobile$1");
 }
 
+function carePreviewPath(src: string, layout: "vertical" | "horizontal") {
+  const name = src.replace(/^.*\//, "").replace(/\.[^.]+$/, "");
+  return `/care-previews/${name}-${layout}.webp`;
+}
+
 function optimizedResultPath(src: string) {
   return src.replace(/\.jpeg$/i, ".webp");
 }
@@ -939,6 +944,12 @@ export default function Home() {
                       document.getElementById(`client-care-tab-${clientCareSlides[next].id}`)?.focus();
                     }}
                   >
+                    <span className="client-care-trigger-preview" aria-hidden="true">
+                      <picture>
+                        <source media="(max-width: 720px)" srcSet={carePreviewPath(slide.image, "horizontal")}/>
+                        <img src={carePreviewPath(slide.image, "vertical")} alt={`Preview: ${slide.alt}`} width="260" height="620" loading="lazy" decoding="async"/>
+                      </picture>
+                    </span>
                     <span className="client-care-trigger-icon"><Icon name={slide.icon} size={20}/></span>
                     <span className="client-care-trigger-title">{slide.shortTitle}</span>
                     <span className="sr-only">{slide.title}</span>
