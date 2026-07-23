@@ -109,7 +109,11 @@ test("before-and-after comparison reveals one full-size continuous scene", async
     /(?:private|tailored|free|thoughtful|your|service|detailed)\s+quote|quote request|a quote/i,
   );
   assert.match(pageSource, /Request a tailored estimate/i);
-  assert.match(pageSource, /Estimate request ready/i);
+  assert.match(pageSource, /One estimate · every channel/i);
+  assert.match(pageSource, /same guided intake/i);
+  assert.match(pageSource, /Full address and approximate property size/i);
+  assert.match(pageSource, /Name, phone, email, and required confirmations/i);
+  assert.match(pageSource, /Estimate request in progress/i);
   assert.doesNotMatch(pageSource, /98%|Thoughtfully matched team/i);
   assert.match(pageSource, /Thoughtful around our pets/i);
   assert.match(pageSource, /Post-construction cleaning/i);

@@ -1112,31 +1112,31 @@ export default function Home() {
       <section className="section concierge-section">
         <div className="concierge-glow"/><div className="shell concierge-grid">
           <div className="concierge-copy" data-reveal>
-            <div className="eyebrow light"><span className="live-dot"/> Meet your 24/7 cleaning concierge</div>
-            <h2 className="display-sm light-text">Questions answered.<br/><em>Bookings simplified.</em></h2>
-            <p>Whether a visitor prefers to call or type, SparClean’s AI concierge can answer common questions, collect estimate details, and help schedule the next step—day or night.</p>
+            <div className="eyebrow light"><span className="live-dot"/> One estimate · every channel</div>
+            <h2 className="display-sm light-text">One conversation.<br/><em>One complete estimate.</em></h2>
+            <p>Whether a client starts with the form, website chat, or a phone call, the SparClean concierge follows the same guided intake and prepares one consistent estimate request for your team.</p>
             <div className="mode-toggle" role="group" aria-label="Concierge demo mode">
               <button className={aiMode === "voice" ? "active" : ""} onClick={() => setAiMode("voice")}><Icon name="phone" size={17}/> Voice assistant</button>
               <button className={aiMode === "chat" ? "active" : ""} onClick={() => setAiMode("chat")}><Icon name="message" size={17}/> Website chat</button>
             </div>
-            <ul className="feature-checks"><li><Icon name="check" size={17}/> Answers service and availability questions</li><li><Icon name="check" size={17}/> Collects detailed estimate information</li><li><Icon name="check" size={17}/> Transfers complex requests to a person</li></ul>
-            <small className="demo-note">Interactive concept · final integrations configured after approval</small>
+            <ul className="feature-checks"><li><Icon name="check" size={17}/> Service type and cleaning needs</li><li><Icon name="check" size={17}/> Full address and approximate property size</li><li><Icon name="check" size={17}/> Name, phone, email, and required confirmations</li></ul>
+            <small className="demo-note">One shared intake flow · form, chat, and voice</small>
           </div>
           <div className="concierge-demo" data-reveal>
             {aiMode === "voice" ? (
               <div className="phone-demo">
                 <div className="phone-top"><span>9:41</span><div/><span>•••</span></div>
-                <div className="call-content"><div className="ai-avatar"><span/><span/><span/></div><small>SparClean AI concierge</small><h3>How can I help today?</h3><div className="waveform">{Array.from({ length: 28 }).map((_, i) => <i key={i} style={{ "--h": `${12 + ((i * 17) % 32)}px`, "--d": `${i * 45}ms` } as React.CSSProperties}/>)}</div><p>“I’d like an estimate for biweekly cleaning.”</p><div className="call-time">00:42</div></div>
+                <div className="call-content"><div className="ai-avatar"><span/><span/><span/></div><small>SparClean estimate concierge</small><h3>Let’s prepare your estimate.</h3><div className="waveform">{Array.from({ length: 28 }).map((_, i) => <i key={i} style={{ "--h": `${12 + ((i * 17) % 32)}px`, "--d": `${i * 45}ms` } as React.CSSProperties}/>)}</div><p>“Recurring cleaning for my home in Folsom. It’s about 1,800 square feet.”</p><div className="call-time">00:42</div></div>
                 <div className="call-actions"><button aria-label="Open message options"><Icon name="message"/></button><button className="hangup" aria-label="End demonstration call"><Icon name="phone"/></button><button aria-label="Open scheduling options"><Icon name="calendar"/></button></div>
               </div>
             ) : (
               <div className="chat-demo">
                 <div className="chat-head"><div className="ai-avatar small"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Online now</small></div><span>•••</span></div>
-                <div className="chat-body"><div className="chat-date">Today · 9:41 AM</div><div className="bubble ai">Hi! I can help you find the right cleaning plan. What kind of space would you like us to care for?</div><div className="bubble user">A 3-bedroom home. I’m interested in biweekly cleaning.</div><div className="bubble ai">Perfect. I’ll collect a few details and prepare your estimate. ✦</div><div className="typing"><i/><i/><i/></div></div>
-                <div className="chat-input">Type your message… <button aria-label="Send message"><Icon name="arrow"/></button></div>
+                <div className="chat-body"><div className="chat-date">Today · 9:41 AM</div><div className="bubble ai">Hi! I can prepare the same free estimate available in our website form. Which cleaning service do you need?</div><div className="bubble user">Recurring cleaning for my home.</div><div className="bubble ai">Great. Next I’ll confirm the full address, approximate size, and your name, phone, and email for follow-up. ✦</div><div className="typing"><i/><i/><i/></div></div>
+                <div className="chat-input">Tell us what you need… <button aria-label="Send message"><Icon name="arrow"/></button></div>
               </div>
             )}
-            <div className="automation-card"><span><Icon name="check"/></span><div><small>Lead captured</small><strong>Estimate request ready</strong></div><em>Just now</em></div>
+            <div className="automation-card"><span><Icon name="check"/></span><div><small>One intake · every channel</small><strong>Estimate request in progress</strong></div><em>Just now</em></div>
           </div>
         </div>
       </section>
@@ -1201,7 +1201,7 @@ export default function Home() {
       </footer>
 
       <button className={chatOpen ? "floating-chat active" : "floating-chat"} onClick={() => setChatOpen(v => !v)} aria-label={chatOpen ? "Close AI concierge" : "Open AI concierge"} aria-expanded={chatOpen}><span className="live-dot"/><Icon name={chatOpen ? "close" : "message"}/><i>Ask SparClean</i></button>
-      {chatOpen && <div className="mini-chat open" role="dialog" aria-label="SparClean AI concierge"><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Ready to help</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can answer questions or help prepare your free estimate. What would you like to know?</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#estimate")?.scrollIntoView({behavior:"smooth"});}}>Get an estimate</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>View services</button></div></div><div className="mini-chat-input">Type a message… <button aria-label="Send message"><Icon name="arrow"/></button></div></div>}
+      {chatOpen && <div className="mini-chat open" role="dialog" aria-label="SparClean AI concierge"><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Estimate guide online</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can guide you through the same free-estimate questions as our form: service, address, property size, name, phone, and email.</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#estimate")?.scrollIntoView({behavior:"smooth"});}}>Start my estimate</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>See cleaning services</button></div></div><div className="mini-chat-input">Tell us what you need… <button aria-label="Send message"><Icon name="arrow"/></button></div></div>}
 
       {showTermsModal && (
         <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>
