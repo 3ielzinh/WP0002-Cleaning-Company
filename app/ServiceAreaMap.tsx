@@ -9,6 +9,12 @@ const toLatLngTuple = ([latitude, longitude]: readonly [number, number]): LatLng
   longitude,
 ];
 
+const getMapPadding = (width: number): [number, number] => {
+  if (width <= 420) return [16, 16];
+  if (width <= 900) return [28, 28];
+  return [44, 44];
+};
+
 export default function ServiceAreaMap() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
@@ -20,6 +26,8 @@ export default function ServiceAreaMap() {
     let disposed = false;
     let mapInstance: LeafletMap | null = null;
     let visibilityObserver: IntersectionObserver | null = null;
+    let resizeObserver: ResizeObserver | null = null;
+    let resizeFrame: number | null = null;
     let mapStarted = false;
 
     const initializeMap = async () => {
@@ -100,8 +108,20 @@ export default function ServiceAreaMap() {
         return marker;
       });
 
-      mapInstance.fitBounds(bounds, { padding: [44, 44], maxZoom: 10 });
+      const mapPadding = getMapPadding(mapContainerRef.current.clientWidth);
+      mapInstance.fitBounds(bounds, { padding: mapPadding, maxZoom: 10 });
       mapRef.current = mapInstance;
+
+      if ("ResizeObserver" in window) {
+        resizeObserver = new ResizeObserver(() => {
+          if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
+          resizeFrame = requestAnimationFrame(() => {
+            if (disposed || !mapInstance) return;
+            mapInstance.invalidateSize({ animate: false, pan: false });
+          });
+        });
+        resizeObserver.observe(mapContainerRef.current);
+      }
 
       requestAnimationFrame(() => {
         if (disposed || !mapInstance) return;
@@ -134,6 +154,8 @@ export default function ServiceAreaMap() {
     return () => {
       disposed = true;
       visibilityObserver?.disconnect();
+      resizeObserver?.disconnect();
+      if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
       markerRefs.current = [];
       mapRef.current = null;
       mapInstance?.remove();
@@ -167,11 +189,12 @@ export default function ServiceAreaMap() {
     const map = mapRef.current;
     if (!map) return;
     const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mapPadding = getMapPadding(mapContainerRef.current?.clientWidth ?? window.innerWidth);
     map.closePopup();
     map.fitBounds(serviceAreas.map(area => toLatLngTuple(area.coordinates)), {
       animate: animateMap,
       duration: animateMap ? 0.9 : 0,
-      padding: [44, 44],
+      padding: mapPadding,
       maxZoom: 10,
     });
   };
