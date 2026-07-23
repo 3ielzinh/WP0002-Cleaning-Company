@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Map as LeafletMap, Marker as LeafletMarker } from "leaflet";
+import type { LatLngTuple, Map as LeafletMap, Marker as LeafletMarker } from "leaflet";
 import { serviceAreas } from "./service-areas";
+
+const toLatLngTuple = ([latitude, longitude]: readonly [number, number]): LatLngTuple => [
+  latitude,
+  longitude,
+];
 
 export default function ServiceAreaMap() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -39,10 +44,10 @@ export default function ServiceAreaMap() {
 
       L.control.zoom({ position: "bottomright" }).addTo(mapInstance);
 
-      const bounds = L.latLngBounds(serviceAreas.map(area => [...area.coordinates] as [number, number]));
+      const bounds = L.latLngBounds(serviceAreas.map(area => toLatLngTuple(area.coordinates)));
       const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      L.circle(serviceAreas[0].coordinates, {
+      L.circle(toLatLngTuple(serviceAreas[0].coordinates), {
         radius: 10500,
         color: "#b88724",
         weight: 1,
@@ -70,7 +75,7 @@ export default function ServiceAreaMap() {
         popupName.textContent = area.mapLabel;
         popup.append(popupLabel, popupName);
 
-        const marker = L.marker(area.coordinates, {
+        const marker = L.marker(toLatLngTuple(area.coordinates), {
           alt: `SparClean service area: ${area.name}`,
           icon: markerIcon,
           keyboard: true,
@@ -86,7 +91,7 @@ export default function ServiceAreaMap() {
 
         marker.on("click", () => {
           setActiveAreaIndex(index);
-          mapInstance?.flyTo(area.coordinates, area.primary ? 10 : 12, {
+          mapInstance?.flyTo(toLatLngTuple(area.coordinates), area.primary ? 10 : 12, {
             animate: animateMap,
             duration: animateMap ? 1.05 : 0,
             easeLinearity: 0.32,
@@ -150,7 +155,7 @@ export default function ServiceAreaMap() {
     if (!map || !marker) return;
     const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    map.flyTo(serviceAreas[index].coordinates, serviceAreas[index].primary ? 10 : 12, {
+    map.flyTo(toLatLngTuple(serviceAreas[index].coordinates), serviceAreas[index].primary ? 10 : 12, {
       animate: animateMap,
       duration: animateMap ? 1.05 : 0,
       easeLinearity: 0.32,
@@ -163,7 +168,7 @@ export default function ServiceAreaMap() {
     if (!map) return;
     const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     map.closePopup();
-    map.fitBounds(serviceAreas.map(area => [...area.coordinates] as [number, number]), {
+    map.fitBounds(serviceAreas.map(area => toLatLngTuple(area.coordinates)), {
       animate: animateMap,
       duration: animateMap ? 0.9 : 0,
       padding: [44, 44],
