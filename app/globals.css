@@ -1764,10 +1764,20 @@ main {
   box-shadow: 0 18px 44px rgba(56, 41, 14, .17);
   backdrop-filter: blur(16px) saturate(1.15);
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .5s ease .22s, transform .65s var(--ease) .18s;
+  visibility: hidden;
+  transform: translateY(16px) scale(.985);
+  transform-origin: left bottom;
+  transition:
+    opacity .22s ease,
+    transform .36s var(--ease),
+    visibility 0s linear .36s;
 }
-.client-care-panel.active .client-care-caption { opacity: 1; transform: translateY(0); }
+.client-care-panel.active .client-care-caption {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition-delay: .28s, .22s, 0s;
+}
 .client-care-caption > span { color: #95670b; font-size: .52rem; letter-spacing: .19em; }
 .client-care-caption h3 {
   margin: 7px 0 7px;
