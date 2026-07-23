@@ -35,6 +35,7 @@ export default function ServiceAreaMap() {
       L.control.zoom({ position: "bottomright" }).addTo(mapInstance);
 
       const bounds = L.latLngBounds(serviceAreas.map(area => [...area.coordinates] as [number, number]));
+      const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       L.circle(serviceAreas[0].coordinates, {
         radius: 10500,
@@ -78,7 +79,14 @@ export default function ServiceAreaMap() {
             autoPanPadding: [24, 24],
           });
 
-        marker.on("click", () => setActiveAreaIndex(index));
+        marker.on("click", () => {
+          setActiveAreaIndex(index);
+          mapInstance?.flyTo(area.coordinates, area.primary ? 10 : 12, {
+            animate: animateMap,
+            duration: animateMap ? 1.05 : 0,
+            easeLinearity: 0.32,
+          });
+        });
         return marker;
       });
 
@@ -117,10 +125,11 @@ export default function ServiceAreaMap() {
     const map = mapRef.current;
     const marker = markerRefs.current[index];
     if (!map || !marker) return;
+    const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     map.flyTo(serviceAreas[index].coordinates, serviceAreas[index].primary ? 10 : 12, {
-      animate: true,
-      duration: 1.05,
+      animate: animateMap,
+      duration: animateMap ? 1.05 : 0,
       easeLinearity: 0.32,
     });
     marker.openPopup();
@@ -129,10 +138,11 @@ export default function ServiceAreaMap() {
   const showAllAreas = () => {
     const map = mapRef.current;
     if (!map) return;
+    const animateMap = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     map.closePopup();
     map.fitBounds(serviceAreas.map(area => [...area.coordinates] as [number, number]), {
-      animate: true,
-      duration: 0.9,
+      animate: animateMap,
+      duration: animateMap ? 0.9 : 0,
       padding: [44, 44],
       maxZoom: 10,
     });
