@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import ServiceAreaMap from "./ServiceAreaMap";
 import { createLeadRequestId, submitLead } from "@/lib/lead-client";
+import Turnstile from "./Turnstile";
 
 /* eslint-disable @next/next/no-img-element -- vinext's current next/image client shim duplicates React hooks during hydration. */
 
@@ -498,6 +499,10 @@ export default function Home() {
   const [leadReference, setLeadReference] = useState("");
   const [quoteSubmitting, setQuoteSubmitting] = useState(false);
   const [conciergeSubmitting, setConciergeSubmitting] = useState(false);
+  const [quoteTurnstileToken, setQuoteTurnstileToken] = useState("");
+  const [conciergeTurnstileToken, setConciergeTurnstileToken] = useState("");
+  const [quoteTurnstileReset, setQuoteTurnstileReset] = useState(0);
+  const [conciergeTurnstileReset, setConciergeTurnstileReset] = useState(0);
   const [quoteStep, setQuoteStep] = useState(1);
   const [quoteDetails, setQuoteDetails] = useState<QuoteDetails>(initialQuoteDetails);
   const [cleaningTypes, setCleaningTypes] = useState<string[]>([]);
@@ -657,11 +662,14 @@ export default function Home() {
         termsAccepted,
         policyAccepted,
         transcript,
+        turnstileToken: conciergeTurnstileToken,
       });
       setLeadReference(result.reference);
       addConciergeExchange(userConfirmation, completionMessage, "complete");
     } catch (error) {
       setConciergeError(error instanceof Error ? error.message : "We could not send your request. Please try again.");
+      setConciergeTurnstileToken("");
+      setConciergeTurnstileReset(current => current + 1);
     } finally {
       setConciergeSubmitting(false);
     }
@@ -674,6 +682,8 @@ export default function Home() {
     setConciergeInput("");
     setConciergeError("");
     setConciergeSubmitting(false);
+    setConciergeTurnstileToken("");
+    setConciergeTurnstileReset(current => current + 1);
     conciergeIdempotencyRef.current = null;
   }
 
@@ -710,6 +720,8 @@ export default function Home() {
     setSubmitted(false);
     setLeadReference("");
     setQuoteSubmitting(false);
+    setQuoteTurnstileToken("");
+    setQuoteTurnstileReset(current => current + 1);
     setQuoteStep(1);
     setQuoteDetails(initialQuoteDetails);
     setCleaningTypes([]);
@@ -805,11 +817,14 @@ export default function Home() {
         services: cleaningTypes,
         termsAccepted,
         policyAccepted,
+        turnstileToken: quoteTurnstileToken,
       });
       setLeadReference(result.reference);
       setSubmitted(true);
     } catch (error) {
       setFormError(error instanceof Error ? error.message : "We could not send your request. Please try again.");
+      setQuoteTurnstileToken("");
+      setQuoteTurnstileReset(current => current + 1);
     } finally {
       setQuoteSubmitting(false);
     }
@@ -1147,6 +1162,8 @@ export default function Home() {
                     </div>
                   )}
 
+                  {quoteStep === 4 && <Turnstile key={quoteTurnstileReset} action="estimate_form" onToken={setQuoteTurnstileToken}/>}
+
                   {formError && <div className="form-error" id="quote-form-error" role="alert"><Icon name="message" size={17}/><span>{formError}</span></div>}
 
                   <div className={quoteStep === 1 ? "form-actions first-step" : "form-actions"}>
@@ -1454,6 +1471,7 @@ export default function Home() {
                   <input id="concierge-policies" type="checkbox" checked={policyAccepted} onChange={event => { setPolicyAccepted(event.target.checked); setConciergeError(""); }}/>
                   <span><label htmlFor="concierge-policies">Company Policies</label><small>I accept the scheduling and cancellation policies. <button type="button" onClick={() => setShowPolicyModal(true)}>View policies</button></small></span>
                 </div>
+                <Turnstile key={conciergeTurnstileReset} action="concierge_chat" onToken={setConciergeTurnstileToken}/>
                 <button type="button" className="concierge-continue" onClick={completeConciergeEstimate} disabled={conciergeSubmitting}>{conciergeSubmitting ? "Sending securely…" : "Complete my request"} <Icon name="arrow" size={15}/></button>
               </div>
             )}

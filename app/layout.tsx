@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { serviceAreas } from "./service-areas";
 import { absoluteUrl, siteConfig, siteUrl } from "./site-config";
+import SiteAnalytics from "./SiteAnalytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -186,6 +187,7 @@ export default function RootLayout({
       <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {children}
+        <SiteAnalytics/>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

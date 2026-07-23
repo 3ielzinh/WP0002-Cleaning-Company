@@ -79,3 +79,12 @@ test("keeps only a bounded, valid concierge transcript", () => {
 test("normalizes formatted phone numbers deterministically", () => {
   assert.equal(normalizePhone("+1 (916) 555-0182"), "19165550182");
 });
+
+test("accepts the protected phone concierge as a lead source", () => {
+  const result = validateLeadSubmission({
+    ...validLead,
+    source: "phone_call",
+    idempotencyKey: "twilio_CA12345678901234567890123456789012",
+  });
+  assert.equal(result.ok, true);
+});

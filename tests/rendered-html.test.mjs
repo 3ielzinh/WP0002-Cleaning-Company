@@ -125,6 +125,7 @@ test("before-and-after comparison reveals one full-size continuous scene", async
   assert.match(pageSource, /Sending securely/i);
   assert.match(pageSource, /Your estimate request is safely with us/i);
   assert.doesNotMatch(pageSource, /This is a demonstration flow/i);
+  assert.match(pageSource, /<Turnstile/i);
   assert.doesNotMatch(pageSource, /Start my estimate|See cleaning services/i);
   assert.doesNotMatch(pageSource, /98%|Thoughtfully matched team/i);
   assert.match(pageSource, /Thoughtful around our pets/i);
@@ -169,6 +170,7 @@ test("serves robots, image sitemap, and web app manifest", async () => {
   const robots = await robotsResponse.text();
   assert.match(robots, /User-Agent: \*/i);
   assert.match(robots, /Allow: \//i);
+  assert.match(robots, /Disallow: \/admin/i);
   assert.match(robots, /Sitemap: https:\/\/sparcleanbr\.com\/sitemap\.xml/i);
 
   const sitemapResponse = await worker.fetch(new Request("https://sparcleanbr.com/sitemap.xml"), env, ctx);

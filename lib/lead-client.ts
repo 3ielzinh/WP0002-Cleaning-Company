@@ -18,6 +18,7 @@ type SubmitLeadInput = {
   termsAccepted: boolean;
   policyAccepted: boolean;
   transcript?: LeadTranscriptMessage[];
+  turnstileToken?: string;
 };
 
 const sessionStorageKey = "sparclean_lead_session";

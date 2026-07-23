@@ -1,4 +1,4 @@
-export const LEAD_SOURCES = ["website_form", "website_chat"] as const;
+export const LEAD_SOURCES = ["website_form", "website_chat", "phone_call"] as const;
 export const SPARCLEAN_CONSENT_VERSION = "2026-07-23";
 
 export const CLEANING_SERVICES = [
@@ -39,7 +39,7 @@ export type LeadSubmissionResponse = {
   leadId: string;
   reference: string;
   disposition: "created" | "updated";
-  notification: "mocked";
+  notification: "delivered" | "pending" | "awaiting_configuration";
 };
 
 type ValidationSuccess = {

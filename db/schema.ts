@@ -86,3 +86,30 @@ export const leadRateLimits = sqliteTable("lead_rate_limits", {
   requestCount: integer("request_count").notNull(),
   updatedAt: integer("updated_at").notNull(),
 });
+
+export const notificationOutbox = sqliteTable("notification_outbox", {
+  id: text("id").primaryKey(),
+  leadId: text("lead_id").notNull().references(() => leads.id, { onDelete: "cascade" }),
+  status: text("status").notNull().default("pending"),
+  attempts: integer("attempts").notNull().default(0),
+  nextAttemptAt: integer("next_attempt_at").notNull(),
+  sentAt: integer("sent_at"),
+  lastError: text("last_error"),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+}, (table) => [
+  index("notification_outbox_status_next_idx").on(table.status, table.nextAttemptAt),
+  index("notification_outbox_lead_id_idx").on(table.leadId),
+]);
+
+export const voiceSessions = sqliteTable("voice_sessions", {
+  callSid: text("call_sid").primaryKey(),
+  fromNumber: text("from_number").notNull(),
+  step: text("step").notNull(),
+  data: text("data").notNull().default("{}"),
+  transcript: text("transcript").notNull().default("[]"),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+}, (table) => [
+  index("voice_sessions_updated_at_idx").on(table.updatedAt),
+]);
