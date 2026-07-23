@@ -53,6 +53,11 @@ test("renders production SEO metadata and accessible image descriptions", async 
   assert.match(html, /Pet-friendly care/i);
   assert.match(html, /Child-friendly cleaning/i);
   assert.match(html, /Senior-friendly care/i);
+  assert.match(html, /Areas we serve/i);
+  assert.match(html, /Sacramento and surrounding areas/i);
+  assert.match(html, /Gold River/i);
+  assert.match(html, /El Dorado Hills/i);
+  assert.match(html, /Interactive map of SparClean service areas around Sacramento/i);
   assert.match(html, /Client reviews/i);
   assert.match(html, /Every transformation/i);
   assert.match(html, /Client before and after cleaning gallery/i);

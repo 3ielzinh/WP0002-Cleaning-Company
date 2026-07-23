@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import ServiceAreaMap from "./ServiceAreaMap";
 
 /* eslint-disable @next/next/no-img-element -- vinext's current next/image client shim duplicates React hooks during hydration. */
 
@@ -620,6 +621,7 @@ export default function Home() {
           <nav className={menuOpen ? "main-nav open" : "main-nav"} aria-label="Main navigation">
             <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
             <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="#areas" onClick={() => setMenuOpen(false)}>Areas</a>
             <a href="#results" onClick={() => setMenuOpen(false)}>Results</a>
             <a href="#reviews" onClick={() => setMenuOpen(false)}>Reviews</a>
             <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
@@ -981,6 +983,8 @@ export default function Home() {
         </div>
       </section>
 
+      <ServiceAreaMap/>
+
       <section className="section process-section">
         <div className="shell">
           <div className="center-heading" data-reveal><div className="eyebrow centered">Simple from the very first step</div><h2 className="display-sm">A fresh space is<br/><em>closer than you think.</em></h2></div>
@@ -1176,7 +1180,7 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
+        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#areas">Areas we serve</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
         <div className="shell footer-bottom"><span>© 2026 SparClean · Demonstration concept</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></div><span>Made with care ✦</span></div>
       </footer>
 

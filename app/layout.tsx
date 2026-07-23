@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
+import { serviceAreas } from "./service-areas";
 import { absoluteUrl, siteConfig, siteUrl } from "./site-config";
 
 const geistSans = Geist({
@@ -94,10 +96,10 @@ const structuredData = {
       },
       image: absoluteUrl(siteConfig.socialImage),
       telephone: siteConfig.phoneE164,
-      areaServed: {
-        "@type": "AdministrativeArea",
-        name: siteConfig.serviceArea,
-      },
+      areaServed: serviceAreas.map(area => ({
+        "@type": "Place",
+        name: area.name,
+      })),
       contactPoint: {
         "@type": "ContactPoint",
         telephone: siteConfig.phoneE164,
@@ -138,10 +140,10 @@ const structuredData = {
       serviceType: "Professional cleaning",
       description: siteConfig.description,
       provider: { "@id": `${siteUrl}/#organization` },
-      areaServed: {
-        "@type": "AdministrativeArea",
-        name: siteConfig.serviceArea,
-      },
+      areaServed: serviceAreas.map(area => ({
+        "@type": "Place",
+        name: area.name,
+      })),
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Cleaning services",
