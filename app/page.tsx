@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import ServiceAreaMap from "./ServiceAreaMap";
+import { createLeadRequestId, submitLead } from "@/lib/lead-client";
 
 /* eslint-disable @next/next/no-img-element -- vinext's current next/image client shim duplicates React hooks during hydration. */
 
@@ -494,6 +495,9 @@ export default function Home() {
   const [conciergeInput, setConciergeInput] = useState("");
   const [conciergeError, setConciergeError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [leadReference, setLeadReference] = useState("");
+  const [quoteSubmitting, setQuoteSubmitting] = useState(false);
+  const [conciergeSubmitting, setConciergeSubmitting] = useState(false);
   const [quoteStep, setQuoteStep] = useState(1);
   const [quoteDetails, setQuoteDetails] = useState<QuoteDetails>(initialQuoteDetails);
   const [cleaningTypes, setCleaningTypes] = useState<string[]>([]);
@@ -509,6 +513,8 @@ export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
   const heroTouchStartRef = useRef<number | null>(null);
   const transformationTouchStartRef = useRef<number | null>(null);
+  const quoteIdempotencyRef = useRef<string | null>(null);
+  const conciergeIdempotencyRef = useRef<string | null>(null);
 
   const activeHero = heroSlides[heroIndex];
   const activeTransformation = transformationCases[transformationIndex];
@@ -624,16 +630,41 @@ export default function Home() {
     }
   }
 
-  function completeConciergeEstimate() {
+  async function completeConciergeEstimate() {
     if (!termsAccepted || !policyAccepted) {
       setConciergeError("Please accept both confirmations to complete your request.");
       return;
     }
-    addConciergeExchange(
-      "Terms and company policies accepted.",
-      `Perfect, ${quoteDetails.fullName}. I have everything needed for your free estimate. The SparClean team can now follow up by phone or email.`,
-      "complete",
-    );
+
+    const userConfirmation = "Terms and company policies accepted.";
+    const completionMessage = `Perfect, ${quoteDetails.fullName}. Your request has been securely received. The SparClean team can now follow up by phone or email.`;
+    const transcript = [
+      ...conciergeMessages.map(({ sender, text }) => ({ sender, text })),
+      { sender: "user" as const, text: userConfirmation },
+      { sender: "ai" as const, text: completionMessage },
+    ];
+
+    setConciergeSubmitting(true);
+    setConciergeError("");
+    try {
+      conciergeIdempotencyRef.current ??= createLeadRequestId();
+      const result = await submitLead({
+        source: "website_chat",
+        idempotencyKey: conciergeIdempotencyRef.current,
+        ...quoteDetails,
+        propertySize: Number(quoteDetails.propertySize),
+        services: cleaningTypes,
+        termsAccepted,
+        policyAccepted,
+        transcript,
+      });
+      setLeadReference(result.reference);
+      addConciergeExchange(userConfirmation, completionMessage, "complete");
+    } catch (error) {
+      setConciergeError(error instanceof Error ? error.message : "We could not send your request. Please try again.");
+    } finally {
+      setConciergeSubmitting(false);
+    }
   }
 
   function resetConcierge() {
@@ -642,6 +673,8 @@ export default function Home() {
     setConciergeMessages([...initialConciergeMessages]);
     setConciergeInput("");
     setConciergeError("");
+    setConciergeSubmitting(false);
+    conciergeIdempotencyRef.current = null;
   }
 
   function changeQuoteStep(step: number) {
@@ -675,12 +708,15 @@ export default function Home() {
 
   function resetQuote() {
     setSubmitted(false);
+    setLeadReference("");
+    setQuoteSubmitting(false);
     setQuoteStep(1);
     setQuoteDetails(initialQuoteDetails);
     setCleaningTypes([]);
     setTermsAccepted(false);
     setPolicyAccepted(false);
     setFormError("");
+    quoteIdempotencyRef.current = null;
   }
 
   useEffect(() => {
@@ -733,7 +769,7 @@ export default function Home() {
     return () => window.clearTimeout(timer);
   }, [heroIndex, heroAutoplayPaused]);
 
-  function submitQuote(event: FormEvent<HTMLFormElement>) {
+  async function submitQuote(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (quoteStep < 4) {
@@ -757,8 +793,26 @@ export default function Home() {
       return;
     }
 
+    setQuoteSubmitting(true);
     setFormError("");
-    setSubmitted(true);
+    try {
+      quoteIdempotencyRef.current ??= createLeadRequestId();
+      const result = await submitLead({
+        source: "website_form",
+        idempotencyKey: quoteIdempotencyRef.current,
+        ...quoteDetails,
+        propertySize: Number(quoteDetails.propertySize),
+        services: cleaningTypes,
+        termsAccepted,
+        policyAccepted,
+      });
+      setLeadReference(result.reference);
+      setSubmitted(true);
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "We could not send your request. Please try again.");
+    } finally {
+      setQuoteSubmitting(false);
+    }
   }
 
   return (
@@ -1003,8 +1057,8 @@ export default function Home() {
               <div className="success-state" role="status" aria-live="polite">
                 <span><Icon name="check" size={34}/></span>
                 <div className="eyebrow centered">Request received</div>
-                <h3>That was the first step.</h3>
-                <p>This is a demonstration flow. In the final site, the request can be sent to email, a CRM, or the AI concierge dashboard.</p>
+                <h3>Your estimate request is safely with us.</h3>
+                <p>The SparClean team can now review your details and follow up by phone or email. Keep reference <strong>{leadReference}</strong> for your records.</p>
                 <button className="button" onClick={resetQuote}>Start another request <Icon name="arrow"/></button>
               </div>
             ) : (
@@ -1097,7 +1151,7 @@ export default function Home() {
 
                   <div className={quoteStep === 1 ? "form-actions first-step" : "form-actions"}>
                     {quoteStep > 1 ? <button type="button" className="back-button" onClick={() => changeQuoteStep(quoteStep - 1)}><Icon name="arrow" size={17}/> Back</button> : <span className="form-security"><Icon name="shield" size={16}/> No payment required</span>}
-                    {quoteStep < 4 ? <button type="button" className="button form-next" onClick={advanceQuoteStep}>Continue <Icon name="arrow"/></button> : <button type="submit" className="button form-next">Request my free estimate <Icon name="arrow"/></button>}
+                    {quoteStep < 4 ? <button type="button" className="button form-next" onClick={advanceQuoteStep}>Continue <Icon name="arrow"/></button> : <button type="submit" className="button form-next" disabled={quoteSubmitting}>{quoteSubmitting ? "Sending securely…" : "Request my free estimate"} <Icon name="arrow"/></button>}
                   </div>
                 </fieldset>
               </form>
@@ -1400,14 +1454,14 @@ export default function Home() {
                   <input id="concierge-policies" type="checkbox" checked={policyAccepted} onChange={event => { setPolicyAccepted(event.target.checked); setConciergeError(""); }}/>
                   <span><label htmlFor="concierge-policies">Company Policies</label><small>I accept the scheduling and cancellation policies. <button type="button" onClick={() => setShowPolicyModal(true)}>View policies</button></small></span>
                 </div>
-                <button type="button" className="concierge-continue" onClick={completeConciergeEstimate}>Complete my request <Icon name="arrow" size={15}/></button>
+                <button type="button" className="concierge-continue" onClick={completeConciergeEstimate} disabled={conciergeSubmitting}>{conciergeSubmitting ? "Sending securely…" : "Complete my request"} <Icon name="arrow" size={15}/></button>
               </div>
             )}
 
             {conciergeStep === "complete" && (
               <div className="concierge-summary">
                 <span><Icon name="check" size={18}/></span>
-                <div><small>Estimate details collected</small><strong>{cleaningTypes.join(" · ")}</strong><p>{quoteDetails.address} · {Number(quoteDetails.propertySize).toLocaleString()} sq ft</p><p>{quoteDetails.phone} · {quoteDetails.email}</p></div>
+                <div><small>Estimate request received · {leadReference}</small><strong>{cleaningTypes.join(" · ")}</strong><p>{quoteDetails.address} · {Number(quoteDetails.propertySize).toLocaleString()} sq ft</p><p>{quoteDetails.phone} · {quoteDetails.email}</p></div>
                 <button type="button" onClick={resetConcierge}>Start another conversation</button>
               </div>
             )}

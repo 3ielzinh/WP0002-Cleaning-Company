@@ -1,0 +1,16 @@
+{
+  // Local-only D1 configuration. Production and preview resources are provisioned
+  // and isolated by Sites from .openai/hosting.json.
+  "name": "sparclean-local-only",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-07-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "site-creator-d1",
+      "database_id": "00000000-0000-4000-8000-000000000000",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}

@@ -120,6 +120,11 @@ test("before-and-after comparison reveals one full-size continuous scene", async
   assert.match(pageSource, /role="log"/i);
   assert.match(pageSource, /submitConciergeInput/i);
   assert.match(pageSource, /Complete my request/i);
+  assert.match(pageSource, /source:\s*"website_form"/i);
+  assert.match(pageSource, /source:\s*"website_chat"/i);
+  assert.match(pageSource, /Sending securely/i);
+  assert.match(pageSource, /Your estimate request is safely with us/i);
+  assert.doesNotMatch(pageSource, /This is a demonstration flow/i);
   assert.doesNotMatch(pageSource, /Start my estimate|See cleaning services/i);
   assert.doesNotMatch(pageSource, /98%|Thoughtfully matched team/i);
   assert.match(pageSource, /Thoughtful around our pets/i);
