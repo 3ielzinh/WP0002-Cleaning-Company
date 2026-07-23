@@ -91,12 +91,38 @@ type QuoteDetails = {
   email: string;
 };
 
+type ConciergeStep = "service" | "address" | "propertySize" | "fullName" | "phone" | "email" | "consent" | "complete";
+
+type ConciergeMessage = {
+  id: number;
+  sender: "ai" | "user";
+  text: string;
+};
+
 const initialQuoteDetails: QuoteDetails = {
   fullName: "",
   address: "",
   propertySize: "",
   phone: "",
   email: "",
+};
+
+const initialConciergeMessages: ConciergeMessage[] = [
+  {
+    id: 1,
+    sender: "ai",
+    text: "Hi! I can prepare your free estimate right here in our chat. First, which cleaning service do you need?",
+  },
+];
+
+const conciergeStepOrder: ConciergeStep[] = ["service", "address", "propertySize", "fullName", "phone", "email", "consent", "complete"];
+
+const conciergeInputConfig: Partial<Record<ConciergeStep, { label: string; placeholder: string; type: "text" | "number" | "tel" | "email"; autoComplete: string }>> = {
+  address: { label: "Full service address", placeholder: "Street, City, State, ZIP", type: "text", autoComplete: "street-address" },
+  propertySize: { label: "Approximate property size", placeholder: "e.g. 1800 sq ft", type: "number", autoComplete: "off" },
+  fullName: { label: "Full name", placeholder: "Your full name", type: "text", autoComplete: "name" },
+  phone: { label: "Phone number", placeholder: "(555) 000-0000", type: "tel", autoComplete: "tel" },
+  email: { label: "Email address", placeholder: "you@email.com", type: "email", autoComplete: "email" },
 };
 
 const quoteSteps = [
@@ -458,6 +484,10 @@ export default function Home() {
   const [compare, setCompare] = useState(50);
   const [aiMode, setAiMode] = useState<"voice" | "chat">("voice");
   const [chatOpen, setChatOpen] = useState(false);
+  const [conciergeStep, setConciergeStep] = useState<ConciergeStep>("service");
+  const [conciergeMessages, setConciergeMessages] = useState<ConciergeMessage[]>(() => [...initialConciergeMessages]);
+  const [conciergeInput, setConciergeInput] = useState("");
+  const [conciergeError, setConciergeError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [quoteStep, setQuoteStep] = useState(1);
   const [quoteDetails, setQuoteDetails] = useState<QuoteDetails>(initialQuoteDetails);
@@ -469,12 +499,16 @@ export default function Home() {
   const [formError, setFormError] = useState("");
   const quoteFormRef = useRef<HTMLFormElement>(null);
   const quoteStepTitleRef = useRef<HTMLHeadingElement>(null);
+  const conciergeLogRef = useRef<HTMLDivElement>(null);
+  const conciergeInputRef = useRef<HTMLInputElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const heroTouchStartRef = useRef<number | null>(null);
   const transformationTouchStartRef = useRef<number | null>(null);
 
   const activeHero = heroSlides[heroIndex];
   const activeTransformation = transformationCases[transformationIndex];
+  const conciergeProgressIndex = conciergeStepOrder.indexOf(conciergeStep);
+  const activeConciergeInput = conciergeInputConfig[conciergeStep];
   const heroAutoplayPaused = heroPaused || heroHoverPaused || heroFocusPaused || !heroInView || !heroPageVisible || heroReducedMotion;
 
   function selectHeroSlide(index: number) {
@@ -499,6 +533,110 @@ export default function Home() {
   function updateQuoteDetail(field: keyof QuoteDetails, value: string) {
     setQuoteDetails(prev => ({ ...prev, [field]: value }));
     setFormError("");
+  }
+
+  function addConciergeExchange(userText: string, aiText: string, nextStep: ConciergeStep) {
+    setConciergeMessages(current => [
+      ...current,
+      { id: current.length + 1, sender: "user", text: userText },
+      { id: current.length + 2, sender: "ai", text: aiText },
+    ]);
+    setConciergeStep(nextStep);
+    setConciergeInput("");
+    setConciergeError("");
+    window.setTimeout(() => conciergeInputRef.current?.focus(), 0);
+  }
+
+  function continueConciergeServices() {
+    if (cleaningTypes.length === 0) {
+      setConciergeError("Choose at least one service to continue.");
+      return;
+    }
+    addConciergeExchange(
+      cleaningTypes.join(" · "),
+      "Perfect. What is the full address where you would like the cleaning?",
+      "address",
+    );
+  }
+
+  function submitConciergeInput(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const value = conciergeInput.trim();
+    if (!value) {
+      setConciergeError("Please enter your answer to continue.");
+      return;
+    }
+
+    if (conciergeStep === "address") {
+      if (value.length < 5) {
+        setConciergeError("Please enter the complete service address.");
+        return;
+      }
+      updateQuoteDetail("address", value);
+      addConciergeExchange(value, "About how many square feet is the property? An estimate is perfectly fine.", "propertySize");
+      return;
+    }
+
+    if (conciergeStep === "propertySize") {
+      const propertySize = Number(value.replace(/[^\d.]/g, ""));
+      if (!Number.isFinite(propertySize) || propertySize < 1) {
+        setConciergeError("Enter an approximate property size greater than zero.");
+        return;
+      }
+      const normalizedSize = String(Math.round(propertySize));
+      updateQuoteDetail("propertySize", normalizedSize);
+      addConciergeExchange(`${Number(normalizedSize).toLocaleString()} sq ft`, "Thank you. What is your full name?", "fullName");
+      return;
+    }
+
+    if (conciergeStep === "fullName") {
+      if (value.length < 2) {
+        setConciergeError("Please enter your full name.");
+        return;
+      }
+      updateQuoteDetail("fullName", value);
+      addConciergeExchange(value, `Nice to meet you, ${value.split(" ")[0]}. What is the best phone number for our follow-up?`, "phone");
+      return;
+    }
+
+    if (conciergeStep === "phone") {
+      if (value.replace(/\D/g, "").length < 7) {
+        setConciergeError("Please enter a valid phone number.");
+        return;
+      }
+      updateQuoteDetail("phone", value);
+      addConciergeExchange(value, "And which email address should we use for your estimate?", "email");
+      return;
+    }
+
+    if (conciergeStep === "email") {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        setConciergeError("Please enter a valid email address.");
+        return;
+      }
+      updateQuoteDetail("email", value);
+      addConciergeExchange(value, "One last step: review and accept our Terms of Use and Company Policies.", "consent");
+    }
+  }
+
+  function completeConciergeEstimate() {
+    if (!termsAccepted || !policyAccepted) {
+      setConciergeError("Please accept both confirmations to complete your request.");
+      return;
+    }
+    addConciergeExchange(
+      "Terms and company policies accepted.",
+      `Perfect, ${quoteDetails.fullName}. I have everything needed for your free estimate. The SparClean team can now follow up by phone or email.`,
+      "complete",
+    );
+  }
+
+  function resetConcierge() {
+    resetQuote();
+    setConciergeStep("service");
+    setConciergeMessages([...initialConciergeMessages]);
+    setConciergeInput("");
+    setConciergeError("");
   }
 
   function changeQuoteStep(step: number) {
@@ -539,6 +677,12 @@ export default function Home() {
     setPolicyAccepted(false);
     setFormError("");
   }
+
+  useEffect(() => {
+    if (!chatOpen) return;
+    const log = conciergeLogRef.current;
+    if (log) log.scrollTo({ top: log.scrollHeight, behavior: "smooth" });
+  }, [chatOpen, conciergeMessages, conciergeStep]);
 
   useEffect(() => {
     const nodes = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -1201,7 +1345,84 @@ export default function Home() {
       </footer>
 
       <button className={chatOpen ? "floating-chat active" : "floating-chat"} onClick={() => setChatOpen(v => !v)} aria-label={chatOpen ? "Close AI concierge" : "Open AI concierge"} aria-expanded={chatOpen}><span className="live-dot"/><Icon name={chatOpen ? "close" : "message"}/><i>Ask SparClean</i></button>
-      {chatOpen && <div className="mini-chat open" role="dialog" aria-label="SparClean AI concierge"><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Estimate guide online</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can guide you through the same free-estimate questions as our form: service, address, property size, name, phone, and email.</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#estimate")?.scrollIntoView({behavior:"smooth"});}}>Start my estimate</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>See cleaning services</button></div></div><div className="mini-chat-input">Tell us what you need… <button aria-label="Send message"><Icon name="arrow"/></button></div></div>}
+      {chatOpen && (
+        <div className="mini-chat open" role="dialog" aria-labelledby="concierge-title" aria-describedby="concierge-status">
+          <div className="mini-chat-head">
+            <div className="ai-avatar tiny"><span/><span/><span/></div>
+            <div>
+              <strong id="concierge-title">SparClean Concierge</strong>
+              <small id="concierge-status"><i/> Estimate conversation · step {Math.min(conciergeProgressIndex + 1, 7)} of 7</small>
+            </div>
+            <button type="button" onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button>
+          </div>
+
+          <div className="mini-chat-progress" role="progressbar" aria-label="Estimate conversation progress" aria-valuemin={1} aria-valuemax={7} aria-valuenow={Math.min(conciergeProgressIndex + 1, 7)}>
+            <span style={{ width: `${Math.min(((conciergeProgressIndex + 1) / 7) * 100, 100)}%` }}/>
+          </div>
+
+          <div className="mini-chat-body" ref={conciergeLogRef} role="log" aria-live="polite" aria-relevant="additions text">
+            {conciergeMessages.map(message => (
+              <div className={`bubble ${message.sender}`} key={message.id}>{message.text}</div>
+            ))}
+
+            {conciergeStep === "service" && (
+              <div className="concierge-service-picker" aria-label="Choose cleaning services">
+                {cleaningOptions.map(option => {
+                  const selected = cleaningTypes.includes(option.label);
+                  return (
+                    <button type="button" className={selected ? "selected" : ""} aria-pressed={selected} onClick={() => { toggleCleaningType(option.label); setConciergeError(""); }} key={option.label}>
+                      <Icon name={option.icon} size={15}/><span>{option.label}</span><i><Icon name="check" size={11}/></i>
+                    </button>
+                  );
+                })}
+                <button type="button" className="concierge-continue" onClick={continueConciergeServices}>Continue with {cleaningTypes.length || "selected"} service{cleaningTypes.length === 1 ? "" : "s"} <Icon name="arrow" size={15}/></button>
+              </div>
+            )}
+
+            {conciergeStep === "consent" && (
+              <div className="concierge-consent">
+                <div className={termsAccepted ? "accepted" : ""}>
+                  <input id="concierge-terms" type="checkbox" checked={termsAccepted} onChange={event => { setTermsAccepted(event.target.checked); setConciergeError(""); }}/>
+                  <span><label htmlFor="concierge-terms">Terms of Use</label><small>I have read and agree. <button type="button" onClick={() => setShowTermsModal(true)}>Read terms</button></small></span>
+                </div>
+                <div className={policyAccepted ? "accepted" : ""}>
+                  <input id="concierge-policies" type="checkbox" checked={policyAccepted} onChange={event => { setPolicyAccepted(event.target.checked); setConciergeError(""); }}/>
+                  <span><label htmlFor="concierge-policies">Company Policies</label><small>I accept the scheduling and cancellation policies. <button type="button" onClick={() => setShowPolicyModal(true)}>View policies</button></small></span>
+                </div>
+                <button type="button" className="concierge-continue" onClick={completeConciergeEstimate}>Complete my request <Icon name="arrow" size={15}/></button>
+              </div>
+            )}
+
+            {conciergeStep === "complete" && (
+              <div className="concierge-summary">
+                <span><Icon name="check" size={18}/></span>
+                <div><small>Estimate details collected</small><strong>{cleaningTypes.join(" · ")}</strong><p>{quoteDetails.address} · {Number(quoteDetails.propertySize).toLocaleString()} sq ft</p><p>{quoteDetails.phone} · {quoteDetails.email}</p></div>
+                <button type="button" onClick={resetConcierge}>Start another conversation</button>
+              </div>
+            )}
+
+            {conciergeError && <div className="concierge-error" role="alert">{conciergeError}</div>}
+          </div>
+
+          {activeConciergeInput && (
+            <form className="mini-chat-input" onSubmit={submitConciergeInput}>
+              <label className="sr-only" htmlFor="concierge-answer">{activeConciergeInput.label}</label>
+              <input
+                ref={conciergeInputRef}
+                id="concierge-answer"
+                type={activeConciergeInput.type}
+                inputMode={conciergeStep === "propertySize" ? "numeric" : undefined}
+                autoComplete={activeConciergeInput.autoComplete}
+                min={conciergeStep === "propertySize" ? 1 : undefined}
+                value={conciergeInput}
+                onChange={event => { setConciergeInput(event.target.value); setConciergeError(""); }}
+                placeholder={activeConciergeInput.placeholder}
+              />
+              <button type="submit" aria-label={`Send ${activeConciergeInput.label.toLowerCase()}`} disabled={!conciergeInput.trim()}><Icon name="arrow"/></button>
+            </form>
+          )}
+        </div>
+      )}
 
       {showTermsModal && (
         <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>
