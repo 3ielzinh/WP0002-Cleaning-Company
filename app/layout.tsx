@@ -1,19 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { serviceAreas } from "./service-areas";
 import { absoluteUrl, siteConfig, siteUrl } from "./site-config";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -28,7 +16,6 @@ export const metadata: Metadata = {
   publisher: siteConfig.legalName,
   category: "Cleaning services",
   alternates: { canonical: "/" },
-  manifest: "/manifest.webmanifest",
   referrer: "origin-when-cross-origin",
   robots: {
     index: true,
@@ -70,15 +57,6 @@ export const metadata: Metadata = {
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
     : undefined,
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "16x16 32x32 48x48 256x256", type: "image/x-icon" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-  },
 };
 
 const structuredData = {
@@ -197,9 +175,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <head>
+        <link rel="icon" href="/favicon.ico?v=sparclean-2" sizes="any"/>
+        <link rel="icon" href="/favicon-32x32.png?v=sparclean-2" sizes="32x32" type="image/png"/>
+        <link rel="icon" href="/favicon-16x16.png?v=sparclean-2" sizes="16x16" type="image/png"/>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=sparclean-2" sizes="180x180"/>
+        <link rel="manifest" href="/manifest.webmanifest"/>
+        <meta name="theme-color" content="#d4af37"/>
+      </head>
+      <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         {children}
         <script

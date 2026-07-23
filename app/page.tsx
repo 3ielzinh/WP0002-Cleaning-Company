@@ -61,6 +61,14 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
 
+function mobileAssetPath(src: string) {
+  return src.replace(/(\.[^.]+)$/, "-mobile$1");
+}
+
+function optimizedResultPath(src: string) {
+  return src.replace(/\.jpeg$/i, ".webp");
+}
+
 const services = [
   { icon: "building" as IconName, number: "01", title: "Commercial spaces", copy: "Reliable cleaning that keeps offices, studios, and client-facing spaces ready for business.", meta: "Flexible · After-hours · Recurring" },
   { icon: "home" as IconName, number: "02", title: "Residential cleaning", copy: "A thoughtful, room-by-room clean tailored to your home, schedule, and routines.", meta: "Weekly · Biweekly · Monthly" },
@@ -616,7 +624,7 @@ export default function Home() {
       <header className="site-header">
         <div className="shell nav-wrap">
           <a className="brand" href="#top" aria-label="SparClean home">
-            <img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/>
+            <img className="brand-logo" src="/sparclean-logo-220.webp" width="220" height="42" fetchPriority="high" decoding="async" alt="SparClean"/>
           </a>
           <nav className={menuOpen ? "main-nav open" : "main-nav"} aria-label="Main navigation">
             <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
@@ -675,21 +683,22 @@ export default function Home() {
               }}
             >
               <div className="hero-image-wrap" id="hero-carousel-stage">
-                {heroSlides.map((slide, index) => (
-                  <article
-                    className={index === heroIndex ? "hero-slide active" : "hero-slide"}
+                {[activeHero].map((slide) => (
+                  <div
+                    className="hero-slide active"
                     role="group"
                     aria-roledescription="slide"
-                    aria-label={`${index + 1} of ${heroSlides.length}: ${slide.kicker}`}
-                    aria-hidden={index !== heroIndex}
+                    aria-label={`${heroIndex + 1} of ${heroSlides.length}: ${slide.kicker}`}
                     key={slide.id}
                   >
+                    <picture>
+                      <source media="(max-width: 600px)" srcSet={mobileAssetPath(slide.image)}/>
                     <img
                       src={slide.image}
                       width={slide.width}
                       height={slide.height}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      fetchPriority={index === 0 ? "high" : "auto"}
+                      loading="eager"
+                      fetchPriority="high"
                       decoding="async"
                       style={{
                         "--hero-position": slide.position,
@@ -697,7 +706,8 @@ export default function Home() {
                       } as React.CSSProperties}
                       alt={slide.alt}
                     />
-                  </article>
+                    </picture>
+                  </div>
                 ))}
                 <div className="hero-image-shade"/>
               </div>
@@ -728,7 +738,7 @@ export default function Home() {
                     <button
                       type="button"
                       className={index === heroIndex ? "active" : ""}
-                      aria-label={`Go to slide ${index + 1}: ${slide.kicker}`}
+                      aria-label={`0${index + 1} — Go to slide ${index + 1}: ${slide.kicker}`}
                       aria-current={index === heroIndex ? "true" : undefined}
                       aria-controls="hero-carousel-stage"
                       onClick={() => selectHeroSlide(index)}
@@ -764,7 +774,7 @@ export default function Home() {
             </div>
           </header>
 
-          <div className="client-care-carousel" role="tablist" aria-label="Our client care promises">
+          <div className="client-care-carousel" aria-label="Our client care promises">
             {clientCareSlides.map((slide, index) => {
               const active = index === clientCareIndex;
               return (
@@ -772,11 +782,9 @@ export default function Home() {
                   <button
                     className="client-care-trigger"
                     type="button"
-                    role="tab"
                     id={`client-care-tab-${slide.id}`}
-                    aria-selected={active}
+                    aria-expanded={active}
                     aria-controls={`client-care-panel-${slide.id}`}
-                    tabIndex={active ? 0 : -1}
                     onClick={() => setClientCareIndex(index)}
                     onKeyDown={(event) => {
                       if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
@@ -789,22 +797,30 @@ export default function Home() {
                   >
                     <span className="client-care-trigger-icon"><Icon name={slide.icon} size={20}/></span>
                     <span className="client-care-trigger-title">{slide.shortTitle}</span>
+                    <span className="sr-only">{slide.title}</span>
                     <span className="client-care-trigger-mark" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                   </button>
 
                   <div
                     className="client-care-media"
                     id={`client-care-panel-${slide.id}`}
-                    role="tabpanel"
+                    role="region"
                     aria-labelledby={`client-care-tab-${slide.id}`}
-                    aria-hidden={!active}
+                    hidden={!active}
                   >
-                    <img src={slide.image} alt={slide.alt} width="1200" height="800" loading="lazy" decoding="async"/>
-                    <div className="client-care-caption">
-                      <span>The SparClean standard</span>
-                      <h3>{slide.title}</h3>
-                      <p>{slide.copy}</p>
-                    </div>
+                    {active && (
+                      <>
+                      <picture>
+                        <source media="(max-width: 720px)" srcSet={mobileAssetPath(slide.image)}/>
+                        <img src={slide.image} alt={slide.alt} width="1200" height="800" loading="lazy" decoding="async"/>
+                      </picture>
+                      <div className="client-care-caption">
+                        <span>The SparClean standard</span>
+                        <h3>{slide.title}</h3>
+                        <p>{slide.copy}</p>
+                      </div>
+                      </>
+                    )}
                   </div>
                 </article>
               );
@@ -1048,9 +1064,9 @@ export default function Home() {
           >
             <div className="transformation-photo-pair" key={activeTransformation.id}>
               <figure className="transformation-photo-frame before">
-                <div className="transformation-photo-media" style={{ "--photo-image": `url("${activeTransformation.before.src}")` } as React.CSSProperties}>
+                <div className="transformation-photo-media" style={{ "--photo-image": `url("${optimizedResultPath(activeTransformation.before.src)}")` } as React.CSSProperties}>
                   <img
-                    src={activeTransformation.before.src}
+                    src={optimizedResultPath(activeTransformation.before.src)}
                     width={activeTransformation.before.width}
                     height={activeTransformation.before.height}
                     loading="lazy"
@@ -1061,9 +1077,9 @@ export default function Home() {
                 <figcaption className="transformation-photo-label"><span>Before</span><small>Original condition</small></figcaption>
               </figure>
               <figure className="transformation-photo-frame after">
-                <div className="transformation-photo-media" style={{ "--photo-image": `url("${activeTransformation.after.src}")` } as React.CSSProperties}>
+                <div className="transformation-photo-media" style={{ "--photo-image": `url("${optimizedResultPath(activeTransformation.after.src)}")` } as React.CSSProperties}>
                   <img
-                    src={activeTransformation.after.src}
+                    src={optimizedResultPath(activeTransformation.after.src)}
                     width={activeTransformation.after.width}
                     height={activeTransformation.after.height}
                     loading="lazy"
@@ -1111,13 +1127,13 @@ export default function Home() {
               <div className="phone-demo">
                 <div className="phone-top"><span>9:41</span><div/><span>•••</span></div>
                 <div className="call-content"><div className="ai-avatar"><span/><span/><span/></div><small>SparClean AI concierge</small><h3>How can I help today?</h3><div className="waveform">{Array.from({ length: 28 }).map((_, i) => <i key={i} style={{ "--h": `${12 + ((i * 17) % 32)}px`, "--d": `${i * 45}ms` } as React.CSSProperties}/>)}</div><p>“I’d like an estimate for biweekly cleaning.”</p><div className="call-time">00:42</div></div>
-                <div className="call-actions"><button><Icon name="message"/></button><button className="hangup"><Icon name="phone"/></button><button><Icon name="calendar"/></button></div>
+                <div className="call-actions"><button aria-label="Open message options"><Icon name="message"/></button><button className="hangup" aria-label="End demonstration call"><Icon name="phone"/></button><button aria-label="Open scheduling options"><Icon name="calendar"/></button></div>
               </div>
             ) : (
               <div className="chat-demo">
                 <div className="chat-head"><div className="ai-avatar small"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Online now</small></div><span>•••</span></div>
                 <div className="chat-body"><div className="chat-date">Today · 9:41 AM</div><div className="bubble ai">Hi! I can help you find the right cleaning plan. What kind of space would you like us to care for?</div><div className="bubble user">A 3-bedroom home. I’m interested in biweekly cleaning.</div><div className="bubble ai">Perfect. I’ll collect a few details and prepare your estimate. ✦</div><div className="typing"><i/><i/><i/></div></div>
-                <div className="chat-input">Type your message… <button><Icon name="arrow"/></button></div>
+                <div className="chat-input">Type your message… <button aria-label="Send message"><Icon name="arrow"/></button></div>
               </div>
             )}
             <div className="automation-card"><span><Icon name="check"/></span><div><small>Lead captured</small><strong>Estimate request ready</strong></div><em>Just now</em></div>
@@ -1180,12 +1196,12 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-hq.png" width="1884" height="358" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#areas">Areas we serve</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
+        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-220.webp" width="220" height="42" loading="lazy" decoding="async" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#areas">Areas we serve</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
         <div className="shell footer-bottom"><span>© 2026 SparClean · Demonstration concept</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></div><span>Made with care ✦</span></div>
       </footer>
 
-      <button className={chatOpen ? "floating-chat active" : "floating-chat"} onClick={() => setChatOpen(v => !v)} aria-label="Open AI concierge"><span className="live-dot"/><Icon name={chatOpen ? "close" : "message"}/><i>Ask SparClean</i></button>
-      <div className={chatOpen ? "mini-chat open" : "mini-chat"} aria-hidden={!chatOpen}><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Ready to help</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can answer questions or help prepare your free estimate. What would you like to know?</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#estimate")?.scrollIntoView({behavior:"smooth"});}}>Get an estimate</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>View services</button></div></div><div className="mini-chat-input">Type a message… <button><Icon name="arrow"/></button></div></div>
+      <button className={chatOpen ? "floating-chat active" : "floating-chat"} onClick={() => setChatOpen(v => !v)} aria-label={chatOpen ? "Close AI concierge" : "Open AI concierge"} aria-expanded={chatOpen}><span className="live-dot"/><Icon name={chatOpen ? "close" : "message"}/><i>Ask SparClean</i></button>
+      {chatOpen && <div className="mini-chat open" role="dialog" aria-label="SparClean AI concierge"><div className="mini-chat-head"><div className="ai-avatar tiny"><span/><span/><span/></div><div><strong>SparClean Concierge</strong><small><i/> Ready to help</small></div><button onClick={() => setChatOpen(false)} aria-label="Close chat"><Icon name="close"/></button></div><div className="mini-chat-body"><div className="bubble ai">Hi! I can answer questions or help prepare your free estimate. What would you like to know?</div><div className="quick-replies"><button onClick={() => {setChatOpen(false); document.querySelector("#estimate")?.scrollIntoView({behavior:"smooth"});}}>Get an estimate</button><button onClick={() => {setChatOpen(false); document.querySelector("#services")?.scrollIntoView({behavior:"smooth"});}}>View services</button></div></div><div className="mini-chat-input">Type a message… <button aria-label="Send message"><Icon name="arrow"/></button></div></div>}
 
       {showTermsModal && (
         <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>

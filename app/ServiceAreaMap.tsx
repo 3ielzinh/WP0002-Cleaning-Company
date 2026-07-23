@@ -14,9 +14,14 @@ export default function ServiceAreaMap() {
   useEffect(() => {
     let disposed = false;
     let mapInstance: LeafletMap | null = null;
+    let visibilityObserver: IntersectionObserver | null = null;
+    let mapStarted = false;
 
     const initializeMap = async () => {
-      const L = await import("leaflet");
+      const [, L] = await Promise.all([
+        import("leaflet/dist/leaflet.css"),
+        import("leaflet"),
+      ]);
       if (disposed || !mapContainerRef.current) return;
 
       mapInstance = L.map(mapContainerRef.current, {
@@ -100,12 +105,30 @@ export default function ServiceAreaMap() {
       });
     };
 
-    void initializeMap().catch(() => {
-      if (!disposed) setMapStatus("error");
-    });
+    const startMap = () => {
+      if (mapStarted) return;
+      mapStarted = true;
+      visibilityObserver?.disconnect();
+      void initializeMap().catch(() => {
+        if (!disposed) setMapStatus("error");
+      });
+    };
+
+    if ("IntersectionObserver" in window && mapContainerRef.current) {
+      visibilityObserver = new IntersectionObserver(
+        entries => {
+          if (entries.some(entry => entry.isIntersecting)) startMap();
+        },
+        { rootMargin: "600px 0px" },
+      );
+      visibilityObserver.observe(mapContainerRef.current);
+    } else {
+      startMap();
+    }
 
     return () => {
       disposed = true;
+      visibilityObserver?.disconnect();
       markerRefs.current = [];
       mapRef.current = null;
       mapInstance?.remove();

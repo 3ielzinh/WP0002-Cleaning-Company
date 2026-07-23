@@ -15,7 +15,7 @@ export const siteConfig = {
   socialImage: "/sparclean-social-card.jpg",
 } as const;
 
-export const resultImagePaths = [
+const sourceResultImagePaths = [
   "/results/stovetop-before.jpeg",
   "/results/stovetop-after.jpeg",
   "/results/shower-niche-before.jpeg",
@@ -49,6 +49,8 @@ export const resultImagePaths = [
   "/results/living-space-detail-before.jpeg",
   "/results/living-space-detail-after.jpeg",
 ] as const;
+
+export const resultImagePaths = sourceResultImagePaths.map(path => path.replace(/\.jpeg$/i, ".webp"));
 
 export function absoluteUrl(path: string) {
   return new URL(path, `${siteUrl}/`).toString();

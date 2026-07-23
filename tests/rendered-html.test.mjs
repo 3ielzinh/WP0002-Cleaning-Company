@@ -63,23 +63,20 @@ test("renders production SEO metadata and accessible image descriptions", async 
   assert.match(html, /Client before and after cleaning gallery/i);
   assert.match(html, /Original condition/i);
   assert.match(html, /SparClean finish/i);
-  assert.match(html, /results\/stovetop-before\.jpeg/i);
-  assert.match(html, /results\/stovetop-after\.jpeg/i);
+  assert.match(html, /results\/stovetop-before\.webp/i);
+  assert.match(html, /results\/stovetop-after\.webp/i);
   assert.match(html, /Stovetop restoration/i);
   assert.match(html, /care-english-speaking\.webp/i);
-  assert.match(html, /care-pet-friendly\.webp/i);
-  assert.match(html, /care-child-friendly\.webp/i);
-  assert.match(html, /care-senior-friendly\.jpg/i);
-  assert.match(html, /role=["']tablist["']/i);
-  assert.match(html, /sparclean-logo-hq\.png/i);
+  assert.match(html, /aria-expanded=["']true["']/i);
+  assert.match(html, /sparclean-logo-220\.webp/i);
   assert.match(html, /favicon-32x32\.png/i);
   assert.match(html, /apple-touch-icon\.png/i);
+  assert.equal((html.match(/rel=["']manifest["']/gi) ?? []).length, 1);
+  assert.doesNotMatch(html, /https:\/\/sparcleanbr\.com\/manifest\.webmanifest/i);
   assert.doesNotMatch(html, /sparclean-icon\.jpg/i);
   assert.match(html, /aria-roledescription=["']carousel["']/i);
   assert.match(html, /Commercial cleaning is our specialty/i);
   assert.match(html, /hero-commercial-man-5\.webp/i);
-  assert.match(html, /hero-commercial-man-cart-tan-gloves\.webp/i);
-  assert.match(html, /hero-residential-woman-3\.webp/i);
   assert.match(html, /kitchen-before-matched\.webp/i);
   assert.match(html, /Residential care/i);
   assert.match(html, /Luxury is having one less thing to worry about\./i);
@@ -164,7 +161,7 @@ test("serves robots, image sitemap, and web app manifest", async () => {
   const sitemap = await sitemapResponse.text();
   assert.match(sitemap, /<loc>https:\/\/sparcleanbr\.com<\/loc>/i);
   assert.match(sitemap, /xmlns:image=/i);
-  assert.match(sitemap, /results\/stovetop-before\.jpeg/i);
+  assert.match(sitemap, /results\/stovetop-before\.webp/i);
   assert.match(sitemap, /sparclean-social-card\.jpg/i);
 
   const manifestResponse = await worker.fetch(new Request("https://sparcleanbr.com/manifest.webmanifest"), env, ctx);
