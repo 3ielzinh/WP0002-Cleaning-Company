@@ -5,6 +5,7 @@ import {
   type LeadSubmissionResponse,
   type LeadTranscriptMessage,
 } from "./lead-contract";
+import { getBrowserSettings } from "./browser-config";
 
 type SubmitLeadInput = {
   source: LeadSource;
@@ -41,11 +42,13 @@ function getLeadSessionId() {
 }
 
 export async function submitLead(input: SubmitLeadInput): Promise<LeadSubmissionResponse> {
-  const response = await fetch("/api/leads", {
+  const settings = getBrowserSettings();
+  const response = await fetch(settings.leadEndpoint ?? "/api/leads", {
     method: "POST",
     headers: {
       "content-type": "application/json",
       "x-requested-with": "SparCleanWebsite",
+      ...(settings.restNonce ? { "X-WP-Nonce": settings.restNonce } : {}),
     },
     body: JSON.stringify({
       ...input,
@@ -58,13 +61,16 @@ export async function submitLead(input: SubmitLeadInput): Promise<LeadSubmission
   });
 
   const result = await response.json().catch(() => null) as (
-    LeadSubmissionResponse | { ok?: false; error?: string }
+    LeadSubmissionResponse | { ok?: false; error?: string; message?: string }
   ) | null;
 
   if (!response.ok || !result?.ok) {
-    throw new Error(result && "error" in result && result.error
+    const responseMessage = result && "error" in result && result.error
       ? result.error
-      : "We could not send your request right now. Please try again.");
+      : result && "message" in result && result.message
+        ? result.message
+        : null;
+    throw new Error(responseMessage ?? "We could not send your request right now. Please try again.");
   }
 
   return result;

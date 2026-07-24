@@ -42,7 +42,7 @@ const prompts: Record<Exclude<VoiceStep, "complete">, string> = {
   fullName: "What is your full name?",
   phone: "What is the best phone number for our team to reach you? Enter the digits followed by the pound key.",
   email: "What email address should we use for your estimate? Please say it slowly, for example, name at example dot com.",
-  consent: "To complete your request, please review the Terms of Use and Company Policies on our website. Say yes or press 1 if you agree to both and authorize SparClean to follow up about this estimate.",
+  consent: "To complete your request, please review the Terms of Service and Company Policies on our website. Say yes or press 1 if you agree to both and authorize SparClean to follow up about this estimate.",
 };
 
 function actionUrl(request: Request, configuredBase: string | null) {

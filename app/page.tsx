@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import ServiceAreaMap from "./ServiceAreaMap";
+import { assetPath } from "@/lib/browser-config";
 import { createLeadRequestId, submitLead } from "@/lib/lead-client";
 import Turnstile from "./Turnstile";
+import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
 /* eslint-disable @next/next/no-img-element -- vinext's current next/image client shim duplicates React hooks during hydration. */
 
@@ -31,7 +33,9 @@ type IconName =
   | "menu"
   | "close"
   | "instagram"
-  | "facebook";
+  | "facebook"
+  | "tiktok"
+  | "youtube";
 
 function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, React.ReactNode> = {
@@ -59,21 +63,23 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
     close: <><path d="m6 6 12 12M18 6 6 18"/></>,
     instagram: <><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></>,
     facebook: <path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1Z"/>,
+    tiktok: <><path d="M15 4v10.5a4.5 4.5 0 1 1-4-4.47"/><path d="M15 4c.6 2.5 2.1 4 4.5 4.6"/></>,
+    youtube: <><path d="M21 8.2a2.7 2.7 0 0 0-1.9-1.9C17.4 5.8 12 5.8 12 5.8s-5.4 0-7.1.5A2.7 2.7 0 0 0 3 8.2 28 28 0 0 0 2.6 12 28 28 0 0 0 3 15.8a2.7 2.7 0 0 0 1.9 1.9c1.7.5 7.1.5 7.1.5s5.4 0 7.1-.5a2.7 2.7 0 0 0 1.9-1.9 28 28 0 0 0 .4-3.8 28 28 0 0 0-.4-3.8Z"/><path d="m10 9 5 3-5 3V9Z"/></>,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
 
 function mobileAssetPath(src: string) {
-  return src.replace(/(\.[^.]+)$/, "-mobile$1");
+  return assetPath(src.replace(/(\.[^.]+)$/, "-mobile$1"));
 }
 
 function carePreviewPath(src: string, layout: "vertical" | "horizontal") {
   const name = src.replace(/^.*\//, "").replace(/\.[^.]+$/, "");
-  return `/care-previews/${name}-${layout}.webp`;
+  return assetPath(`/care-previews/${name}-${layout}.webp`);
 }
 
 function optimizedResultPath(src: string) {
-  return src.replace(/\.jpeg$/i, ".webp");
+  return assetPath(src.replace(/\.jpeg$/i, ".webp"));
 }
 
 const services = [
@@ -81,6 +87,8 @@ const services = [
   { icon: "home" as IconName, number: "02", title: "Residential cleaning", copy: "A thoughtful, room-by-room clean tailored to your home, schedule, and routines.", meta: "Weekly · Biweekly · Monthly" },
   { icon: "sparkles" as IconName, number: "03", title: "Deep cleaning", copy: "A detailed reset for the areas that need extra care, from baseboards to overlooked corners.", meta: "Seasonal · One-time · Custom" },
   { icon: "key" as IconName, number: "04", title: "Move in & move out", copy: "Leave the old place spotless or arrive at a new home that already feels fresh and ready.", meta: "Apartments · Homes · Rentals" },
+  { icon: "building" as IconName, number: "05", title: "Post-Construction Cleaning", copy: "Fine dust, debris, and finishing details handled after construction or remodeling work.", meta: "Renovations · Remodels · New builds" },
+  { icon: "calendar" as IconName, number: "06", title: "Recurring Cleaning", copy: "Biweekly and Monthly cleaning", meta: "Consistent care · Familiar team" },
 ];
 
 const faqs = [
@@ -141,7 +149,7 @@ const quoteSteps = [
 
 const cleaningOptions: { label: string; description: string; icon: IconName }[] = [
   { label: "Office Cleaning", description: "Reliable care for productive workspaces", icon: "building" },
-  { label: "Recurring Cleaning", description: "Consistent weekly or biweekly care", icon: "calendar" },
+  { label: "Recurring Cleaning", description: "Biweekly and Monthly cleaning", icon: "calendar" },
   { label: "Deep Cleaning", description: "A detailed top-to-bottom reset", icon: "sparkles" },
   { label: "Move-In Cleaning", description: "A fresh start before you unpack", icon: "home" },
   { label: "Move-Out Cleaning", description: "Leave every room ready for what is next", icon: "key" },
@@ -510,6 +518,7 @@ export default function Home() {
   const [policyAccepted, setPolicyAccepted] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPolicyModal, setShowPolicyModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [formError, setFormError] = useState("");
   const quoteFormRef = useRef<HTMLFormElement>(null);
   const quoteStepTitleRef = useRef<HTMLHeadingElement>(null);
@@ -631,7 +640,7 @@ export default function Home() {
         return;
       }
       updateQuoteDetail("email", value);
-      addConciergeExchange(value, "One last step: review and accept our Terms of Use and Company Policies.", "consent");
+      addConciergeExchange(value, "One last step: review and accept our Terms of Service and Company Policies.", "consent");
     }
   }
 
@@ -801,7 +810,7 @@ export default function Home() {
     }
 
     if (!termsAccepted || !policyAccepted) {
-      setFormError("Please accept the Terms of Use and Company Policies to send your request.");
+      setFormError("Please accept the Terms of Service and Company Policies to send your request.");
       return;
     }
 
@@ -842,12 +851,18 @@ export default function Home() {
       <header className="site-header">
         <div className="shell nav-wrap">
           <a className="brand" href="#top" aria-label="SparClean home">
-            <img className="brand-logo" src="/sparclean-logo-220.webp" width="220" height="42" fetchPriority="high" decoding="async" alt="SparClean"/>
+            <img className="brand-logo" src={assetPath("/sparclean-logo-220.webp")} width="220" height="42" fetchPriority="high" decoding="async" alt="SparClean"/>
           </a>
           <nav className={menuOpen ? "main-nav open" : "main-nav"} aria-label="Main navigation">
             <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
-            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-            <a href="#areas" onClick={() => setMenuOpen(false)}>Areas</a>
+            <div className="nav-group">
+              <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+              <div className="nav-submenu" aria-label="About SparClean links">
+                <a href="#privacy-policy" onClick={() => { setShowPrivacyModal(true); setMenuOpen(false); }}>Privacy Policy</a>
+                <a href="#terms-of-service" onClick={() => { setShowTermsModal(true); setMenuOpen(false); }}>Terms of Service</a>
+              </div>
+            </div>
+            <a href="#areas" onClick={() => setMenuOpen(false)}>Areas we serve</a>
             <a href="#results" onClick={() => setMenuOpen(false)}>Results</a>
             <a href="#reviews" onClick={() => setMenuOpen(false)}>Reviews</a>
             <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
@@ -864,7 +879,7 @@ export default function Home() {
         <div className="shell hero-grid">
           <div className="hero-copy">
             <div className="eyebrow hero-in delay-1"><span className="eyebrow-icon"><Icon name="building" size={15}/></span><span className="hero-eyebrow-text">Commercial cleaning specialists<span className="hero-eyebrow-secondary"> · Residential care</span></span></div>
-            <h1 className="display hero-in delay-2">Immaculate at work.<br/><em>Effortless at home.</em></h1>
+            <h1 className="display hero-in delay-2">Luxury is having<br/><em>one less thing to worry about.</em></h1>
             <p className="hero-lede hero-in delay-3">
               <span className="hero-lede-desktop">Commercial cleaning is our specialty—meticulous, reliable care for offices, businesses, and client-facing spaces. The same signature standard is also available for homes.</span>
               <span className="hero-lede-mobile">Commercial cleaning for offices and businesses, with the same meticulous standard available for homes.</span>
@@ -912,7 +927,7 @@ export default function Home() {
                     <picture>
                       <source media="(max-width: 600px)" srcSet={mobileAssetPath(slide.image)}/>
                     <img
-                      src={slide.image}
+                      src={assetPath(slide.image)}
                       width={slide.width}
                       height={slide.height}
                       loading="eager"
@@ -1036,7 +1051,7 @@ export default function Home() {
                       <>
                       <picture>
                         <source media="(max-width: 720px)" srcSet={mobileAssetPath(slide.image)}/>
-                        <img src={slide.image} alt={slide.alt} width="1200" height="800" loading="lazy" decoding="async"/>
+                        <img src={assetPath(slide.image)} alt={slide.alt} width="1200" height="800" loading="lazy" decoding="async"/>
                       </picture>
                       <div className="client-care-caption">
                         <span>The SparClean standard</span>
@@ -1138,7 +1153,13 @@ export default function Home() {
                         <label htmlFor="quote-phone">Phone <span>*</span><input id="quote-phone" name="phone" required minLength={7} autoComplete="tel" type="tel" value={quoteDetails.phone} onChange={e => updateQuoteDetail("phone", e.target.value)} placeholder="(555) 000-0000" aria-describedby={formError ? "quote-form-error" : undefined}/></label>
                         <label htmlFor="quote-email">Email <span>*</span><input id="quote-email" name="email" required autoComplete="email" type="email" value={quoteDetails.email} onChange={e => updateQuoteDetail("email", e.target.value)} placeholder="you@email.com" aria-describedby={formError ? "quote-form-error" : undefined}/></label>
                       </div>
-                      <div className="form-note privacy"><span><Icon name="shield" size={19}/></span><p><strong>Your details stay private.</strong><small>We only use them to prepare and follow up on your estimate.</small></p></div>
+                      <div className="form-note privacy">
+                        <span><Icon name="shield" size={19}/></span>
+                        <p>
+                          <strong>Your details stay private.</strong>
+                          <small>We only use them to prepare and follow up on your estimate. <a className="privacy-policy-link" href="#privacy-policy" onClick={() => setShowPrivacyModal(true)}>Privacy Policy</a></small>
+                        </p>
+                      </div>
                     </div>
                   )}
 
@@ -1152,7 +1173,7 @@ export default function Home() {
                       <div className="consent-group">
                         <div className={termsAccepted ? "consent-option accepted" : "consent-option"}>
                           <input id="quote-terms" type="checkbox" checked={termsAccepted} onChange={e => { setTermsAccepted(e.target.checked); setFormError(""); }}/>
-                          <div><label htmlFor="quote-terms">Terms of Use</label><span>I have read and agree to the terms. <button type="button" className="inline-link" onClick={() => setShowTermsModal(true)}>Read terms</button></span></div>
+                          <div><label htmlFor="quote-terms">Terms of Service</label><span>I have read and agree to the terms. <button type="button" className="inline-link" onClick={() => setShowTermsModal(true)}>Read terms</button></span></div>
                         </div>
                         <div className={policyAccepted ? "consent-option accepted" : "consent-option"}>
                           <input id="quote-policies" type="checkbox" checked={policyAccepted} onChange={e => { setPolicyAccepted(e.target.checked); setFormError(""); }}/>
@@ -1215,7 +1236,7 @@ export default function Home() {
                 <p>We use professional-grade equipment and premium cleaning products to deliver outstanding results. Homeowners are kindly asked to provide one roll of paper towels and trash bags. If you prefer that we use your own cleaning products, we are happy to accommodate; however, results may vary depending on the quality of the products provided. Please leave them on the kitchen countertop or provide clear instructions.</p>
               </div>
               <div data-chapter="02">
-                <p>Our teams arrive in uniform, wearing gloves and masks at all times. Shoe covers are always worn to help protect your floors and keep your home clean throughout the service. We never send inexperienced cleaners into our clients&apos; homes. Our reputation is built on precision, professionalism, integrity, and trust, and we proudly uphold a consistent 5-star standard of service.</p>
+                <p>Our teams arrive in uniform and wear gloves at all times. Shoe covers are always worn to help protect your floors and keep your home clean throughout the service. We never send inexperienced cleaners into our clients&apos; homes. Our reputation is built on precision, professionalism, integrity, and trust, and we proudly uphold a consistent 5-star standard of service.</p>
                 <p>To maintain this level of quality, we intentionally accept a limited number of recurring clients, with availability for weekly, bi-weekly, or monthly cleaning services.</p>
               </div>
             </div>
@@ -1249,8 +1270,8 @@ export default function Home() {
             <a href="#estimate" className="button">Request your transformation <Icon name="arrow"/></a>
           </div>
           <div className="compare-card" data-reveal style={{ "--compare-position": `${compare}%` } as React.CSSProperties}>
-            <div className="compare-image after"><img src="/kitchen-after.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="Bright, polished kitchen after professional cleaning"/><span className="image-label">After</span></div>
-            <div className="compare-image before"><img src="/kitchen-before-matched.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="The same kitchen dirty and disorganized before professional cleaning"/><span className="image-label">Before</span></div>
+            <div className="compare-image after"><img src={assetPath("/kitchen-after.webp")} width="1400" height="1050" loading="lazy" decoding="async" alt="Bright, polished kitchen after professional cleaning"/><span className="image-label">After</span></div>
+            <div className="compare-image before"><img src={assetPath("/kitchen-before-matched.webp")} width="1400" height="1050" loading="lazy" decoding="async" alt="The same kitchen dirty and disorganized before professional cleaning"/><span className="image-label">Before</span></div>
             <div className="compare-handle"><span><Icon name="arrow" size={14}/><Icon name="arrow" size={14}/></span></div>
             <input aria-label="Compare before and after" aria-valuetext={`${compare}% before, ${100 - compare}% after`} type="range" min="4" max="96" value={compare} onChange={e => setCompare(Number(e.target.value))}/>
             <div className="compare-caption"><span>Slide to reveal</span><strong>Kitchen reset · 2.5 hours</strong></div>
@@ -1422,8 +1443,29 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <div className="shell footer-top"><div className="footer-brand"><a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src="/sparclean-logo-220.webp" width="220" height="42" loading="lazy" decoding="async" alt="SparClean"/></a><p>Luxury is having one less thing to worry about.</p><div className="socials"><a href="#" aria-label="Instagram"><Icon name="instagram"/></a><a href="#" aria-label="Facebook"><Icon name="facebook"/></a></div></div><div className="footer-links"><div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#areas">Areas we serve</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div><div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Deep cleaning</a><a href="#services">Move in / out</a></div><div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div></div></div>
-        <div className="shell footer-bottom"><span>© 2026 SparClean · Demonstration concept</span><div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></div><span>Made with care ✦</span></div>
+        <div className="shell footer-top">
+          <div className="footer-brand">
+            <a className="brand light-brand" href="#top" aria-label="SparClean home"><img className="brand-logo" src={assetPath("/sparclean-logo-220.webp")} width="220" height="42" loading="lazy" decoding="async" alt="SparClean"/></a>
+            <p>Luxury is having one less thing to worry about.</p>
+            <div className="socials" aria-label="SparClean social media">
+              <a href="https://www.instagram.com/sparcleanbr?igsh=MzRlODBiNWFlZA==" target="_blank" rel="noreferrer" aria-label="SparClean on Instagram"><Icon name="instagram"/></a>
+              <a href="https://www.facebook.com/SparCleanEro?mibextid=ZbWKwL" target="_blank" rel="noreferrer" aria-label="SparClean on Facebook"><Icon name="facebook"/></a>
+              <a href="https://www.tiktok.com/@sparcleanbr?_r=1&_t=ZP-98ImYQtQs5m" target="_blank" rel="noreferrer" aria-label="SparClean on TikTok"><Icon name="tiktok"/></a>
+              <a href="https://youtube.com/@sparcleanbr?si=8NHuvUyzi7dAVMRr" target="_blank" rel="noreferrer" aria-label="SparClean on YouTube"><Icon name="youtube"/></a>
+            </div>
+          </div>
+          <div className="footer-links">
+            <div><strong>Explore</strong><a href="#services">Services</a><a href="#about">About us</a><a href="#areas">Areas we serve</a><a href="#results">Our results</a><a href="#reviews">Reviews</a></div>
+            <div><strong>Services</strong><a href="#services">Residential</a><a href="#services">Commercial</a><a href="#services">Recurring cleaning</a><a href="#services">Post-construction</a></div>
+            <div><strong>Contact</strong><a href="tel:+19165460021">(916) 546-0021</a><a href="mailto:info@sparcleanbr.com">info@sparcleanbr.com</a><span>Sacramento & surrounding areas</span><span>Mon–Fri · 8am–6pm</span><span>AI concierge · 24/7</span></div>
+          </div>
+        </div>
+        <div className="shell footer-legal-callout">
+          <span><Icon name="shield" size={17}/> Your privacy choices are always within reach.</span>
+          <a href="#privacy-policy" onClick={() => setShowPrivacyModal(true)}>Privacy Policy</a>
+          <a href="#terms-of-service" onClick={() => setShowTermsModal(true)}>Terms of Service</a>
+        </div>
+        <div className="shell footer-bottom"><span>© 2026 SparClean Cleaning Services LLC</span><div><a href="#privacy-policy" onClick={() => setShowPrivacyModal(true)}>Privacy Policy</a><a href="#terms-of-service" onClick={() => setShowTermsModal(true)}>Terms of Service</a><a href="#faq">Accessibility</a></div><span>Made with care ✦</span></div>
       </footer>
 
       <button className={chatOpen ? "floating-chat active" : "floating-chat"} onClick={() => setChatOpen(v => !v)} aria-label={chatOpen ? "Close AI concierge" : "Open AI concierge"} aria-expanded={chatOpen}><span className="live-dot"/><Icon name={chatOpen ? "close" : "message"}/><i>Ask SparClean</i></button>
@@ -1465,7 +1507,7 @@ export default function Home() {
               <div className="concierge-consent">
                 <div className={termsAccepted ? "accepted" : ""}>
                   <input id="concierge-terms" type="checkbox" checked={termsAccepted} onChange={event => { setTermsAccepted(event.target.checked); setConciergeError(""); }}/>
-                  <span><label htmlFor="concierge-terms">Terms of Use</label><small>I have read and agree. <button type="button" onClick={() => setShowTermsModal(true)}>Read terms</button></small></span>
+                  <span><label htmlFor="concierge-terms">Terms of Service</label><small>I have read and agree. <button type="button" onClick={() => setShowTermsModal(true)}>Read terms</button></small></span>
                 </div>
                 <div className={policyAccepted ? "accepted" : ""}>
                   <input id="concierge-policies" type="checkbox" checked={policyAccepted} onChange={event => { setPolicyAccepted(event.target.checked); setConciergeError(""); }}/>
@@ -1507,16 +1549,18 @@ export default function Home() {
         </div>
       )}
 
+      <PrivacyPolicyModal open={showPrivacyModal} onClose={() => setShowPrivacyModal(false)}/>
+
       {showTermsModal && (
         <div className="modal-overlay" onClick={() => setShowTermsModal(false)}>
           <div className="modal-card" onClick={e => e.stopPropagation()}>
             <div className="modal-head">
-              <h3>Terms of Use</h3>
+              <h3>Terms of Service</h3>
               <button onClick={() => setShowTermsModal(false)} aria-label="Close"><Icon name="close"/></button>
             </div>
             <div className="modal-body">
               <h4>1. Acceptance of Terms</h4>
-              <p>By using SparClean’s services, you agree to be bound by these Terms of Use. If you do not agree to these terms, please do not use our services.</p>
+              <p>By using SparClean’s services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
               <h4>2. Scope of Services</h4>
               <p>SparClean provides professional residential and commercial cleaning services. The scope of services will be as outlined in your estimate and confirmed booking.</p>
               <h4>3. Liability</h4>

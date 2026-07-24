@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getBrowserSettings } from "@/lib/browser-config";
 
 declare global {
   interface Window {
@@ -53,7 +54,7 @@ export default function Turnstile({
 
   useEffect(() => {
     let active = true;
-    fetch("/api/public-config")
+    fetch(getBrowserSettings().publicConfigEndpoint ?? "/api/public-config")
       .then(response => response.json())
       .then((config: { turnstileSiteKey?: string | null }) => {
         if (!active || !config.turnstileSiteKey) return;
